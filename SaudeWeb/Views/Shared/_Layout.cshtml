@@ -1,0 +1,154 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="medicina saude ocupacional aso atestado saude sistemas sistema" >
+    <title>Medicina Ocupacional</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <script src="~/Content/font-awesome.min.css"></script>
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+
+</head>
+<body>
+    <div id="navTop" class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button id="btnTug" style="border-color:#b5cd60" type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span id="tug" style="color:#b5cd60;background-color:#b5cd60" class="icon-bar"></span>
+                    <span id="tug" style="color:#b5cd60;background-color:#b5cd60" class="icon-bar"></span>
+                    <span id="tug" style="color:#b5cd60;background-color:#b5cd60" class="icon-bar"></span>
+                </button>              
+               @*@Html.ActionLink("Início", "Index", "Home", new { area = "" }, new { @class = "fas fa-home" })*@
+                <a  href="~/Home/Index"><i id="casinha" style="margin-top:10px;font-size:35px; margin-left:10px;color:#b5cd60;margin-right:5px;" class="fa fa-home"></i></a>
+                
+            </div>
+            <div class="navbar-collapse collapse">
+                @if (!string.IsNullOrEmpty(ViewBag.UsuarioLogado))
+                {
+                    
+                <ul class="nav navbar-nav">
+                    <li id="dropVerde" class="dropdown">
+                        <a  class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#">Cadastro<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">                          
+                            <li>@Html.ActionLink("Clientes", "Index", "Pessoas")</li>@*Descricao,Action,Controler*@
+                            <li class="divider"></li>
+                            <li class="divider"></li>
+                            <li>@Html.ActionLink("Médicos", "Index", "Medicos")</li>
+                            <li class="divider"></li>
+                            <li class="divider"></li>
+                            <li>@Html.ActionLink("Funcionários", "Index", "Funcionarios")</li>
+                            <li class="divider"></li>
+                            <li class="divider"></li>
+                            <li>@Html.ActionLink("Exames", "Index", "Exames")</li>
+                            <li class="divider"></li>
+                            <li class="divider"></li>
+                            <li>@Html.ActionLink("Agentes", "Index", "Agentes")</li>
+                            <li class="divider"></li>
+                            <li class="divider"></li>
+                            <li>@Html.ActionLink("Setores", "Index", "Setores")</li>
+                            <li class="divider"></li>
+                            <li class="divider"></li>
+                            <li>@Html.ActionLink("Funções", "Index", "Funcoes")</li>
+                            <li class="divider"></li>                         
+                           
+                            @if (ViewBag.ModuloFinanceiro == 1)
+                            {                                
+                                <li class="divider"></li>
+                                <li>@Html.ActionLink("Conta Corrente/Caixa", "Index", "ContaCorrenteCaixa")</li>
+                                <li class="divider"></li>
+                                <li class="divider"></li>
+                                <li>@Html.ActionLink("Plano de Contas", "Index", "PlanoContas")</li>
+                                <li class="divider"></li>
+                            }
+
+                        </ul>
+                        </li>
+                    <li id="dropVerde" class="dropdown">
+                        <a  class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#">Movimentação<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>@Html.ActionLink("Agenda", "Index", "Agenda")</li>@*Descricao,Action,Controler*@
+                            <li class="divider"></li>   
+                            <li class="divider"></li>   
+                            <li>@Html.ActionLink("Questionário", "Index", "Consultas")</li>@*Descricao,Action,Controler*@
+                            <li class="divider"></li>     
+                            <li class="divider"></li>
+                            <li>@Html.ActionLink("Tabela de Preços - Exames", "Index", "Tabela")</li>
+                            <li class="divider"></li> 
+                        </ul>
+                    </li>
+                    @if (ViewBag.ModuloFinanceiro == 1)
+                    {
+                        <li id="dropVerde" class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#">Financeiro<span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>@Html.ActionLink("Contas à Receber/Pagar", "Index", "Financeiro")</li>
+                                <li class="divider"></li>
+                                <li class="divider"></li>                                
+                                <li>@Html.ActionLink("Conta Corrente/Caixa", "Index", "BancoCaixa")</li>
+                                <li class="divider"></li>                                
+                                <li class="divider"></li>  
+                                <li>@Html.ActionLink("Faturamento - Clientes", "Faturamento", "Financeiro")</li>
+                                <li class="divider"></li>   
+                                
+                            </ul>
+                        </li>
+                    }
+                    
+                    <li id="dropVerde" class="dropdown">
+                        <a  class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#">Relatórios<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">                            
+                            <li>@Html.ActionLink("Clientes - Médicos", "RepCadastroFiltro", "Report")</li>
+                            <li class="divider"></li>
+                            <li class="divider"></li>
+                            <li>@Html.ActionLink("Funcionários", "RepFuncionarioFiltro", "Report")</li>
+                            <li class="divider"></li>
+                            <li class="divider"></li>
+                            <li>@Html.ActionLink("Consultas", "RepConsultaFiltro", "Report")</li>
+                            <li class="divider"></li>
+                            <li class="divider"></li>
+                            <li>@Html.ActionLink("Exames Complementares", "RepExamesComplementaresFiltro", "Report")</li>
+                            <li class="divider"></li>
+                            <li class="divider"></li>
+                            @if (ViewBag.ModuloFinanceiro == 1)
+                            {
+                                <li>@Html.ActionLink("Contas a Receber/Pagar", "RepRecPagFiltro", "Report")</li>
+                                <li class="divider"></li>@*RepGerencialPlanoContaFiltro*@
+                                <li class="divider"></li>
+                                <li>@Html.ActionLink("Movimentação por Plano de Contas", "RepGerencialPlanoContaFiltro", "Report")</li>
+                                <li class="divider"></li>
+                            }
+                        </ul>
+                    </li>
+                    </ul>
+                    @Html.Partial("_LoginPartial")
+
+                }
+                else
+                {
+                    @Html.Partial("_LoginPartial")
+                }
+              
+            </div>
+            
+            
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()        
+        <hr id="hrVerde" />
+        <footer>
+            <p><a href="http://www.heavyusers.com.br/" style="text-decoration-style:none">&copy; @DateTime.Now.Year - Heavy Users Sistemas</a><span style="float:right;margin-right:5px;color:#b5cd60;">MEDICINA OCUPACIONAL</span></p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <link href="~/Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="~/Scripts/DataTables/jquery.dataTables.js" type="text/javascript"></script>
+    
+    <script src="~/Scripts/Utils.js"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,106 @@
+﻿@model IEnumerable<SaudeWeb.Models.ContaCorrenteCaixa>
+
+@{
+    ViewBag.Title = "Cadastro de Conta Corrente/Caixa";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    #rdQtde {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        border-radius: 50%;
+        width: 16px;
+        height: 16px;
+        border: 2px solid #b5cd60;
+        transition: 0.2s all linear;
+        outline: none;
+        margin-right: 5px;
+        position: relative;
+        top: 4px;
+    }
+
+        #rdQtde:checked {
+            border: 5px solid #282e33;
+            background: #b5cd60;
+        }
+</style>
+<div class="panel panel-default">
+    <div id="panelColorido" class="panel-heading">Cadastro de Conta Corrente/Caixa<span style="float:right"><a style="margin-top:-3px" id="botaoTop" onclick="mostrarPesquisa()" class="btn btn-default btn-sm">...</a></span></div>
+    <div id="divPesquisa" class="panel-body" style="display:none">
+        @using (Html.BeginForm())
+            {
+            <div class="form-horizontal">
+                <h2 style="text-align:center; font-family:Arial; font-weight:700;">Localizar por:</h2>
+                <fieldset>
+                    <div class="row" style="padding-bottom:8px;">
+                        <div class="form-group col-md-12">
+                            @Html.Label("Conta", new { @class = "control-label col-md-2" })
+                            @Html.TextBox("txtConta", null, new { @class = "form-control col-md-4 " })
+                        </div>
+                    </div>
+                    <div class="row" style="padding-bottom:8px;">
+                        <div class="form-group col-md-12">
+                            @Html.Label("Descrição", new { @class = "control-label col-md-2" })
+                            @Html.TextBox("txtDescricao", null, new { @class = "form-control col-md-4 " })
+                        </div>
+                    </div>
+                    @*<div class="form-group col-md-12">
+                            @Html.Label("Apenas ativos", new { @class = "control-label col-md-2" })
+                            <input type="checkbox" id="checkAtivo" name="checkAtivo" checked="checked" style="margin-top:10px" />
+                        </div>*@
+                    <div class="row" style="width:200px;float:right;margin-right:5px;height:90px">
+                        <label>Quantidade de Registros</label>
+                        <div style="border: 0.5px solid #ccc; border-radius:10px">
+                            <input id="rdQtde" style="margin-left:3px" type="radio" name="qtdeReg" value="1000"> Todos<br>
+                            <input id="rdQtde" style="margin-left:3px" type="radio" name="qtdeReg" value="100"> 100<br>
+                            <input id="rdQtde" style="margin-left:3px; margin-bottom:5px" type="radio" name="qtdeReg" value="10" checked> 10<br>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+
+            <input class="btn btn-warning" type="submit" value="Localizar" id="botaoTop" />
+        }
+    </div>
+</div>
+<p>
+    @Html.ActionLink("Novo", "Create", null, null, new { @class = "btn btn-sm btn-success", @id = "botaoTop" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Descricao)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NumeroConta)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Descricao)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NumeroConta)
+        </td>
+        <td>
+            @Html.ActionLink(" ", "Edit", new { id = item.ID }, new { @class = "fa fa-pencil-square", @id = "botaoTop", @style = "font-size:24px;padding-left:2.5px;padding-bottom:0;padding-rigth:0;padding-top:0;width:26px;", @title = "Editar" })
+            @Html.ActionLink(" ", "Delete", new { id = item.ID }, new { @class = "fa fa-trash", @id = "botaoTop", @style = "font-size:24px;padding-left:2.5px;padding-bottom:0;padding-rigth:0;padding-top:0;width:26px", @title = "Excluir" }) 
+        </td>
+    </tr>
+}
+
+</table>
+<script>
+    function mostrarPesquisa() {
+        var x = document.getElementById("divPesquisa");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
+</script>

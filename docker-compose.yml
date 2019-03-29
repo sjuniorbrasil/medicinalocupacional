@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  saudeweb:
+    image: saudeweb
+    build:
+      context: .\SaudeWeb
+      dockerfile: Dockerfile

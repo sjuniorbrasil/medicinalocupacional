@@ -1,0 +1,114 @@
+﻿@{
+    Layout = null;
+}
+@model IEnumerable<SaudeWeb.Models.ExamesCompViewModel>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Medicina Ocupacional - @ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <script type='text/javascript'>
+
+       function imprimir() {
+           var op = $("#imprimir").val();
+           if (op == "imprimir") {
+               document.getElementById("imprimir").style.visibility = "hidden";
+               document.getElementById("btnVoltar").style.visibility = "hidden";
+               window.print();
+               document.getElementById("imprimir").style.visibility = "visible";
+               document.getElementById("btnVoltar").style.visibility = "visible";
+           }
+       }   
+    </script>
+    
+</head>
+<body>
+    
+    <div class="LandscapeDiv">
+        <h2 style="text-align:center; margin-top:-30px">Exames Complementares</h2>        
+        <div style="margin-left:750px">
+            <a id="btnVoltar" href="~/report/repExamesComplementaresfiltro/" class="btn btn-default btn-sm">Voltar</a>
+            <button type="button" onClick="imprimir()" id="imprimir" value="imprimir" class="btn btn-default btn-sm">
+                <span class="glyphicon glyphicon-print"></span> Imprimir
+            </button>            
+        </div>
+        <strong><span style="margin-right:100px">@ViewBag.Periodo </span> <span style="margin-right:100px">@ViewBag.Pagamento </span>  <span style="margin-right:100px">@ViewBag.SitExame </span><span>@ViewBag.Situacao </span></strong>
+        <p style="margin-top:-10px">___________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________</p>
+        <table>
+            <tr>
+
+                <th style="height:5px; width:350px;font-size:10px;margin-right:10px">
+                    Cliente
+                </th>
+                <th style="height:5px; width:350px;font-size:10px;margin-left:10px;margin-right:10px">
+                    Funcionario
+                </th>
+                <th style="height:5px; width:250px;font-size:10px;margin-left:10px;margin-right:10px">
+                    Exame
+                </th>
+                <th style="height:5px; width:200px;font-size:10px;margin-left:10px;margin-right:10px">
+                    Resultado Exame
+                </th>
+               
+                <th style="height:5px; width:150px;font-size:10px;margin-left:10px;margin-right:10px">
+                    Data
+                </th>
+                <th style="height:5px; width:200px;font-size:10px;margin-left:10px;margin-right:10px">
+                    Médico
+                </th>
+                <th style="height:5px; width:68px;font-size:10px;margin-left:10px;margin-right:10px">
+                    Valor Exame
+                </th>
+
+
+
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cliente)
+                    </td>
+                    <td >
+                        @Html.DisplayFor(modelItem => item.Funcionario)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ExameDesc)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ResultadoExames)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DataConsultaF)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Medico)
+                    </td>
+                    <td style="text-align:right">
+                        @Html.DisplayFor(modelItem => item.ValorExame)
+                    </td>
+                </tr>
+            }
+        </table>
+        <p>___________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________</p>
+        <p style="float:right;margin-top:20px;margin-right:350px">Total: @ViewBag.SomaValor</p>
+        <footer >
+            <p>___________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________</p>
+            <p>&copy; @DateTime.Now.Year - Heavy Users Sistemas<span style="margin-left:1205px">MEDICINA OCUPACIONAL</span></p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <link href="~/Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="~/Scripts/DataTables/jquery.dataTables.js" type="text/javascript"></script>
+
+</body>
+</html>
+

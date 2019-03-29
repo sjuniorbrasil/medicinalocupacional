@@ -1,0 +1,269 @@
+﻿@model SaudeWeb.Models.Agenda
+
+@{
+    ViewBag.Title = "Agenda";
+}
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Agenda</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ID)
+
+        @Html.HiddenFor(model => model.EmpresaID)
+        @Html.HiddenFor(model => model.DataAgendamento)
+        @Html.HiddenFor(model => model.DataConclusao)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ClienteID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ClienteID, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })                
+                <input type="button" value="..." onclick="PClienteOpen()" class="btn btn-success" id="botaoTop"/>
+                @Html.EditorFor(model => model.NomeCliente, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.NomeCliente, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FuncionarioID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.FuncionarioID, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.FuncionarioID, "", new { @class = "text-danger" })
+                <input type="button" value="..." onclick="PFuncionarioOpen()" class="btn btn-success" id="botaoTop"/>
+                @Html.EditorFor(model => model.NomeFuncionario, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.NomeFuncionario, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DataAgendado, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DataAgendado, new { htmlAttributes = new { @class = "form-control", @onblur = "ValidaData(this)", @Title = "Exemplo 01/01/2000", @onkeypress = "mascaraData( this, event )", @maxlength = "10", @type = "text", @placeholder = "DD/MM/AAAA" } } )
+                @Html.ValidationMessageFor(model => model.DataAgendado, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Hora, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Hora, new { htmlAttributes = new { @class = "form-control", @Title = "Exemplo 10:10", @placeholder = "HH:MM", @onkeypress = "mascaraHora( this, event )", @maxlength = "5" } })
+                @Html.ValidationMessageFor(model => model.Hora, "", new { @class = "text-danger" })               
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Observacoes, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Observacoes, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Observacoes, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Situacao, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Situacao", null, htmlAttributes: new { @class = "form-control" })                                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                @if (Model.Situacao == 1)
+                {
+                    <input type="submit" value="Salvar" class="btn btn-success btn-sm" disabled id="botaoTop"/>
+                }
+                else
+                {
+                    <input type="submit" value="Salvar" class="btn btn-success btn-sm" id="botaoTop"/>
+                }
+                
+                @Html.ActionLink("Voltar", "Index", null, null, new { @class = "btn btn-info btn-sm", @id = "botaoTop" })
+            </div>
+        </div>
+    </div>
+}
+<div id="PCliente" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" style="width:70%" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Clientes</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-5">
+                            <div class="input-group">
+                                @Html.TextBox("PClienteFiltro", null, new { @class = "form-control" })
+                                <span class="input-group-btn">
+                                    <input type="button" id="PClienteBuscar" onclick="PClientePesquisa()" value="Localizar" class="btn btn-success" />
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="width:100%; height:400px; overflow-y: scroll">
+                    <table id="PClienteTable" class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th style="width:100px">Controle</th>
+                                <th style="width:400px">Cliente</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="PFuncionario" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" style="width:70%" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Funcionários</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-5">
+                            <div class="input-group">
+                                @Html.TextBox("PFuncionarioFiltro", null, new { @class = "form-control" })
+                                <span class="input-group-btn">
+                                    <input type="button" id="PFuncionarioBuscar" onclick="PFuncionarioPesquisa()" value="Localizar" class="btn btn-success" />
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="width:100%; height:400px; overflow-y: scroll">
+                    <table id="PFuncionarioTable" class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th style="width:100px">Controle</th>
+                                <th style="width:400px">Nome</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    
+
+    function SelecionarCliente(ID, Razao) {
+        $("#ClienteID").val(ID);
+        $("#NomeCliente").val(Razao);
+        $('#PCliente').modal('toggle');
+    }
+
+    function SelecionarFuncionario(ID, Nome) {
+        $("#FuncionarioID").val(ID);
+        $("#NomeFuncionario").val(Nome);
+        $('#PFuncionario').modal('toggle');
+    }
+
+    function PFuncionarioOpen() {
+        $("#PFuncionario").modal("show");
+    }
+
+    function PClienteOpen() {
+        $("#PCliente").modal("show");
+    }
+
+    function PFuncionarioPesquisa() {
+        PesquisaFuncionario();
+    }
+
+    function PClientePesquisa() {
+        PesquisaCliente();
+    }
+
+
+    function PesquisaCliente() {
+
+        var PClienteTable = $("#PClienteTable").DataTable();
+
+        PClienteTable.clear();
+
+        var url = "@Url.Action("PesquisaCliente","Pesquisa",null)?&filtro=" + $("#PClienteFiltro").val();
+
+        $.getJSON(url, function (data) {
+
+                        $.each(data, function (index, item) {
+                        var botao = item["ID"] + ',"' + item["Razao"] + '"';
+                        botao = "<input type='button' value='Selecionar' onclick='SelecionarCliente(" + botao + ")' class='btn btn-xs btn-success' />";
+
+                        PClienteTable.row.add([item["ID"],
+                                               item["Razao"],
+                                               botao]).draw(false);
+
+                    });
+                }
+            );
+    }
+
+     function PesquisaFuncionario() {
+            var PFuncionarioTable = $("#PFuncionarioTable").DataTable();
+            PFuncionarioTable.clear();
+            var url = "@Url.Action("PesquisaFuncionario","Pesquisa",null)?&filtro=" + $("#PFuncionarioFiltro").val();
+            $.getJSON(url, function (data) {
+
+                        $.each(data, function (index, item) {
+                            var botao = item["ID"] + ',"' + item["Descricao"] + '"';
+                            botao = "<input type='button' value='Selecionar' onclick='SelecionarFuncionario(" + botao + ")' class='btn btn-xs btn-success' />";
+                        PFuncionarioTable.row.add([item["ID"],
+                            item["Nome"],
+                                               botao]).draw(false);
+
+                    });
+                }
+            );
+    }
+
+     $(document).ready(function () {
+
+         var PClienteTable = $("#PClienteTable").dataTable({
+             "paging": false,
+             "ordering": false,
+             "info": false,
+             "searching": false,
+             "language": {
+                 "emptyTable": "&nbsp"
+             }
+         }).DataTable();
+     });
+
+     $(document).ready(function () {
+
+         var PFuncionarioTable = $("#PFuncionarioTable").dataTable({
+             "paging": false,
+             "ordering": false,
+             "info": false,
+             "searching": false,
+             "language": {
+                 "emptyTable": "&nbsp"
+             }
+         }).DataTable();
+     });
+</script>

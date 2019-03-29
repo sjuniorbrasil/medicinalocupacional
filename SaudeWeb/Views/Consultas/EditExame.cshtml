@@ -1,0 +1,236 @@
+﻿@model SaudeWeb.Models.Consulta.ConsultaExame
+@{
+    ViewBag.Title = "EditExame";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="container" >
+        @Html.HiddenFor(model => model.ConsultaID)
+        @Html.HiddenFor(model => model.ExameId)
+        @Html.HiddenFor(model => model.EmpresaID)
+        @Html.HiddenFor(model => model.ValorExame)
+        @Html.HiddenFor(model => model.FinanceiroID)
+        @Html.HiddenFor(model => model.FaturaPara)
+        @Html.HiddenFor(model => model.PessoaId)
+        @Html.HiddenFor(model => model.medicoId)
+        <div class="row">
+            <div class="form-group col-md-4">
+                @Html.Label("Exame")
+                @Html.EditorFor(model => model.ExameDesc, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+            </div>
+            <div class="form-group col-md-4">
+                @Html.Label("Médico Analista")
+                @Html.EditorFor(model => model.medicoDesc, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                <input type="button" value="..." onclick="PMedicoOpen()" class="btn btn-success" />
+            </div>
+            <div class="form-group col-md-4">
+                @Html.Label("Encaminhamento")
+                @Html.EditorFor(model => model.EncaminhamentoDesc, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                <input type="button" value="..." onclick="PEncaminhamentoOpen()" class="btn btn-success" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-4">
+                @Html.Label("Data Coleta")
+                @Html.EditorFor(model => model.DataColeta, new { htmlAttributes = new { @class = "form-control", @onblur = "ValidaData(this)", @onkeypress = "mascaraData( this, event )", @maxlength = "10", @placeholder = "DD/MM/AAAA", @type = "text" } })
+            </div>
+            <div class="form-group col-md-4">
+                @Html.Label("Data Emissão")
+                @Html.EditorFor(model => model.DataEmissao, new { htmlAttributes = new { @class = "form-control", @onblur = "ValidaData(this)", @onkeypress = "mascaraData( this, event )", @maxlength = "10", @placeholder = "DD/MM/AAAA", @type = "text" } })
+            </div>
+            <div class="form-group col-md-4">
+                @Html.Label("Pagamento")
+                @*<input type="text" id="PagamentoDetal" class="form-control" name="PagamentoDetal" />*@
+                @Html.DropDownList("FormaPgto", null, htmlAttributes: new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-4">
+                @Html.Label("Conclusão")
+                @Html.DropDownList("SituacaoExame", null, htmlAttributes: new { @class = "form-control" })
+                @*<input type="text" id="ConclusaoDetal" class="form-control" name="ConclusaoDetal" />*@
+            </div>
+            <div class="form-group col-md-4">
+                @Html.Label("Proxima Consulta")
+                @Html.EditorFor(model => model.ProximaConsulta, new { htmlAttributes = new { @class = "form-control", @onblur = "ValidaData(this)", @onkeypress = "mascaraData( this, event )", @maxlength = "10", @placeholder = "DD/MM/AAAA", @type = "text" } })
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="form-group col-md-12">
+                @Html.Label("Observações")
+                @Html.EditorFor(model => model.Observacao, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
+
+        <div class="footer">
+            <button type="submit" id="botaoTop" class="btn btn-default btn-sm">Alterar</button>
+            <button type="button" id="botaoTop" class="btn btn-default btn-sm" onclick="window.history.back()">Cancelar</button>
+        </div>
+
+    </div>
+
+
+}
+<div id="PEncaminhamento" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" style="width:70%" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Cadastro</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-5">
+                            <div class="input-group">
+                                @Html.TextBox("PEncaminhamentoFiltro", null, new { @class = "form-control" })
+                                <span class="input-group-btn">
+                                    <input type="button" id="PEncaminhamentoBuscar" onclick="PEncaminhamentoPesquisa()" value="Localizar" class="btn btn-success" />
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="width:100%; height:400px; overflow-y: scroll">
+                    <table id="PEncaminhamentoTable" class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th style="width:100px">Controle</th>
+                                <th style="width:400px">Cadastro</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="PMedico" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" style="width:70%" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Médicos</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-5">
+                            <div class="input-group">
+                                @Html.TextBox("PMedicoFiltro", null, new { @class = "form-control" })
+                                <span class="input-group-btn">
+                                    <input type="button" id="PMedicoBuscar" onclick="PMedicoPesquisa()" value="Localizar" class="btn btn-success" />
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="width:100%; height:400px; overflow-y: scroll">
+                    <table id="PMedicoTable" class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th style="width:100px">Controle</th>
+                                <th style="width:400px">Médico</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+
+    function SelecionarMedico(ID, Razao) {
+        $("#medicoId").val(ID);
+        $("#medicoDesc").val(Razao);
+        $('#PMedico').modal('toggle');
+    }
+
+
+
+
+    function SelecionarEncaminhamento(ID, Razao) {
+        $("#PessoaId").val(ID);
+        $("#EncaminhamentoDesc").val(Razao);
+        $('#PEncaminhamento').modal('toggle');
+    }
+
+
+    function PMedicoOpen() {
+        $("#PMedico").modal("show");
+    }
+
+    function PEncaminhamentoOpen() {
+        $("#PEncaminhamento").modal("show");
+    }
+
+    function PMedicoPesquisa() {
+        PesquisaMedico();
+    }
+
+
+    function PEncaminhamentoPesquisa() {
+        PesquisaEncaminhamento();
+    }
+
+    function PesquisaEncaminhamento() {
+
+        var PEncaminhamentoTable = $("#PEncaminhamentoTable").DataTable();
+
+        PEncaminhamentoTable.clear();
+
+        var url = "@Url.Action("PesquisaCliente","Pesquisa",null)?&filtro=" + $("#PEncaminhamentoFiltro").val();
+
+        $.getJSON(url, function (data) {
+
+                        $.each(data, function (index, item) {
+                        var botao = item["ID"] + ',"' + item["Razao"] + '"';
+                        botao = "<input type='button' value='Selecionar' onclick='SelecionarEncaminhamento(" + botao + ")' class='btn btn-xs btn-success' />";
+
+                        PEncaminhamentoTable.row.add([item["ID"],
+                                               item["Razao"],
+                                               botao]).draw(false);
+
+                    });
+                }
+            );
+    }
+
+    function PesquisaMedico() {
+
+        var PMedicoTable = $("#PMedicoTable").DataTable();
+
+        PMedicoTable.clear();
+
+        var url = "@Url.Action("PesquisaMedico","Pesquisa",null)?&filtro=" + $("#PMedicoFiltro").val();
+
+        $.getJSON(url, function (data) {
+
+            $.each(data, function (index, item) {
+                var botao = item["ID"] + ',"' + item["Razao"] + '"';
+                botao = "<input type='button' value='Selecionar' onclick='SelecionarMedico(" + botao + ")' class='btn btn-xs btn-success' />";
+                PMedicoTable.row.add([item["ID"], item["Razao"], botao]).draw(false);
+
+                    });
+                }
+            );
+    }   
+</script>
+
+

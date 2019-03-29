@@ -1,0 +1,51 @@
+﻿@model SaudeWeb.Models.PlanoConta
+
+@{
+    ViewBag.Title = "Subcategoria";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Subcategoria de: @ViewBag.NivelSuperiorDesc</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.HiddenFor(model => model.ID, new { htmlAttributes = new { @class = "form-control" } })        
+        @Html.HiddenFor(model => model.Operacao, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.HiddenFor(model => model.NivelSuperior, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.HiddenFor(model => model.EmpresaID, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.HiddenFor(model => model.Nivel, new { htmlAttributes = new { @class = "form-control" } })
+
+        
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Descricao, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Descricao, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Descricao, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Conta, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Conta, new { htmlAttributes = new { @class = "form-control", maxlength = 4 , @readonly= "readonly"} })
+                @Html.ValidationMessageFor(model => model.Conta, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+
+        <div class="form-group">
+            <div class="row">
+                <input type="submit" value="Salvar" class="btn btn-success btn-sm" id="botaoTop" />
+                @Html.ActionLink("Voltar", "Index", null, null, new { @class = "btn btn-info btn-sm", @id = "botaoTop" })
+            </div>
+        </div>
+    </div>
+}
+

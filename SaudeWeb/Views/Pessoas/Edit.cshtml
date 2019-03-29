@@ -1,0 +1,266 @@
+﻿@model SaudeWeb.Models.Pessoa
+
+@{
+    ViewBag.Title = "Clientes";
+}
+
+<h2>Cadastro</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Clientes</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ID)
+        @Html.HiddenFor(model => model.EmpresaID)
+        @Html.HiddenFor(model => model.DataCadastro)
+
+        
+        <div class="row">
+            <div class="form-group col-md-4">
+                @Html.LabelFor(model => model.Razao, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.Razao, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Razao, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group col-md-6">
+                @Html.LabelFor(model => model.Fantasia, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.Fantasia, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Fantasia, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group col-md-2" style="float:right" >
+                @Html.ActionLink("Histórico", "Index", "HistoricoCliente", new { id = Model.ID }, new { @class = "btn btn-info btn-sm", @id = "botaoTop", @style="float:rigth" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-4">
+                @Html.LabelFor(model => model.Situacao, htmlAttributes: new { @class = "control-label" })
+                @Html.DropDownList("Situacao", null, htmlAttributes: new { @class = "form-control" })
+                @*@Html.EditorFor(model => model.Situacao, new { htmlAttributes = new { @class = "form-control" } })*@
+                @Html.ValidationMessageFor(model => model.Situacao, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group col-md-4">
+                @Html.LabelFor(model => model.TipoPessoa, htmlAttributes: new { @class = "control-label" })
+                @Html.DropDownList("TipoPessoa", null, htmlAttributes: new { @class = "form-control" })
+                @*@Html.EditorFor(model => model.TipoPessoa, new { htmlAttributes = new { @class = "form-control" } })*@
+                @Html.ValidationMessageFor(model => model.TipoPessoa, "", new { @class = "text-danger" })
+
+            </div>
+            <div class="form-group col-md-4">
+                @Html.LabelFor(model => model.CNAE, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.CNAE, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CNAE, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="row">
+            
+            <div class="form-group col-md-4">
+                @Html.LabelFor(model => model.CNPJ, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.CNPJ, new { htmlAttributes = new { @class = "form-control", @onkeypress = "MascaraCNPJ(this, event)", @maxlength = "18" } })
+                @Html.ValidationMessageFor(model => model.CNPJ, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group col-md-4">
+                @Html.LabelFor(model => model.IE, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.IE, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.IE, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group col-md-4">
+                @Html.LabelFor(model => model.FormaPgto, htmlAttributes: new { @class = "control-label" })
+                @Html.DropDownList("FormaPgto", null, htmlAttributes: new { @class = "form-control" })
+                @*@Html.EditorFor(model => model.FormaPgto, new { htmlAttributes = new { @class = "form-control" } })*@
+                @Html.ValidationMessageFor(model => model.FormaPgto, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-4">
+                @Html.LabelFor(model => model.Endereco, htmlAttributes: new { @class = "control-label " })
+                @Html.EditorFor(model => model.Endereco, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Endereco, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group col-md-4">
+                @Html.LabelFor(model => model.Numero, htmlAttributes: new { @class = "control-label " })
+                @Html.EditorFor(model => model.Numero, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Numero, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group col-md-4">
+                @Html.LabelFor(model => model.Bairro, htmlAttributes: new { @class = "control-label " })
+                @Html.EditorFor(model => model.Bairro, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Bairro, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-4">
+                @Html.LabelFor(model => model.Complemento, htmlAttributes: new { @class = "control-label " })
+                @Html.EditorFor(model => model.Complemento, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Complemento, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group col-md-4">
+                @Html.LabelFor(model => model.CEP, htmlAttributes: new { @class = "control-label " })
+                @Html.EditorFor(model => model.CEP, new { htmlAttributes = new { @class = "form-control", @onkeypress = "mascaraCep(this, event)", @onblur = "ValidaCep(this)", @maxlength = "10" } })
+                @Html.ValidationMessageFor(model => model.CEP, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group col-md-4">
+                @Html.LabelFor(model => model.CidadeID, "Cidade", htmlAttributes: new { @class = "control-label " })
+                @Html.HiddenFor(model => model.CidadeID, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.CidadeDesc, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                <input type="button" value="..." onclick="PCidadeOpen()" class="btn btn-success" id="botaoTop"/>   
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-4">
+                @Html.LabelFor(model => model.Fone1, htmlAttributes: new { @class = "control-label " })
+                @Html.EditorFor(model => model.Fone1, new { htmlAttributes = new { @class = "form-control", @onkeypress = "MascaraTelefone(this, event)" } })
+                @Html.ValidationMessageFor(model => model.Fone1, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group col-md-4">
+                @Html.LabelFor(model => model.Fone2, htmlAttributes: new { @class = "control-label " })
+                @Html.EditorFor(model => model.Fone2, new { htmlAttributes = new { @class = "form-control", @onkeypress = "MascaraCelular(this, event)" } })
+                @Html.ValidationMessageFor(model => model.Fone2, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group col-md-4">
+                @Html.LabelFor(model => model.Fone3, htmlAttributes: new { @class = "control-label " })
+                @Html.EditorFor(model => model.Fone3, new { htmlAttributes = new { @class = "form-control", @onkeypress = "MascaraTelefone(this, event)" } })
+                @Html.ValidationMessageFor(model => model.Fone3, "", new { @class = "text-danger" })
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="form-group col-md-4">
+                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group col-md-4">
+                @Html.LabelFor(model => model.Contato, htmlAttributes: new { @class = "control-label " })
+                @Html.EditorFor(model => model.Contato, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Contato, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group col-md-4">
+                @Html.LabelFor(model => model.TabelaID, htmlAttributes: new { @class = "control-label" })
+                @Html.DropDownList("TabelaID", null, "----------------------", htmlAttributes: new { @class = "form-control" })
+                @*@Html.EditorFor(model => model.FormaPgto, new { htmlAttributes = new { @class = "form-control" } })*@
+                @Html.ValidationMessageFor(model => model.TabelaID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-12">
+                @Html.LabelFor(model => model.Observacao, htmlAttributes: new { @class = "control-label" })
+                @Html.TextAreaFor(model => model.Observacao, new { style = "width: 800px; height: 200px;", @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Observacao, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Salvar" class="btn btn-success btn-sm" id="botaoTop"/>
+                @Html.ActionLink("Voltar", "Index", null, null, new { @class = "btn btn-info btn-sm", @id = "botaoTop" })
+            </div>
+        </div>
+    </div>
+}
+
+<div id="PCidade" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" style="width:70%" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Cidades</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-5">
+                            <div class="input-group">
+                                @Html.TextBox("PCidadeFiltro", null, new { @class = "form-control" })
+                                <span class="input-group-btn">
+                                    <input type="button" id="PCidadeBuscar" onclick="PCidadePesquisa()" value="Localizar" class="btn btn-success" />
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="width:100%; height:400px; overflow-y: scroll">
+                    <table id="PCidadeTable" class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th style="width:100px">Controle</th>
+                                <th style="width:400px">Descrição</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function SelecionarCidade(ID, CidadeUF) {
+        $("#CidadeID").val(ID);
+        $("#CidadeDesc").val(CidadeUF);
+        $('#PCidade').modal('toggle');
+    }
+
+    function PCidadeOpen() {
+        $("#PCidade").modal("show");
+    }
+
+
+
+    function PCidadePesquisa() {
+        PesquisaCidade();
+    }
+
+
+    function PesquisaCidade() {
+
+        var PCidadeTable = $("#PCidadeTable").DataTable();
+
+        PCidadeTable.clear();
+
+        var url = "@Url.Action("PesquisaCidade","Pesquisa",null)?&filtro=" + $("#PCidadeFiltro").val();
+
+        $.getJSON(url, function (data) {
+
+                        $.each(data, function (index, item) {
+                            var botao = item["ID"] + ',"' + item["CidadeUF"] + '"';
+                        botao = "<input type='button' value='Selecionar' onclick='SelecionarCidade(" + botao + ")' class='btn btn-xs btn-success' />";
+
+                        PCidadeTable.row.add([item["ID"],
+                            item["CidadeUF"],
+                                               botao]).draw(false);
+
+                    });
+                }
+            );
+    }
+
+
+
+     $(document).ready(function () {
+
+         var PCidadeTable = $("#PCidadeTable").dataTable({
+             "paging": false,
+             "ordering": false,
+             "info": false,
+             "searching": false,
+             "language": {
+                 "emptyTable": "&nbsp"
+             }
+         }).DataTable();
+     });
+
+</script>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

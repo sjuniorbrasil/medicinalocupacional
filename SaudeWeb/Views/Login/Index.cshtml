@@ -1,0 +1,51 @@
+﻿@using SaudeWeb.Utils
+
+@model User.Usuario
+
+@{
+   ViewBag.Title = "Acesso ao Sistema";
+}
+
+<div id="login">
+    <div name="form-login">
+        <section id="loginForm" >
+            @using (Html.BeginForm("Index", "Login", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form", name= "form-login" }))
+            {
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <h3 style="text-align:center; color:#b5cd60">Medicina Ocupacional</h3>
+                <hr />
+                
+                <span style="color:#b5cd60" class="fontawesome-user"></span>                
+                @Html.TextBoxFor(m => m.email, new { @class = "form-control",@id = "user", @placeholder = "Usuário" })
+                @*@Html.ValidationMessageFor(m => m.email, "", new { @class = "text-danger" })*@               
+                <span style="color:#b5cd60" class="fontawesome-lock"></span>
+                @Html.PasswordFor(m => m.senha, new { @class = "form-control", @id = "pass", @placeholder = "Senha" })
+                @*@Html.ValidationMessageFor(m => m.senha, "", new { @class = "text-danger" })*@
+                <input id="butaoCinza" type="submit" value="Entrar" class="btn btn-default" />
+
+                <a  style="margin-top:10px;float:left; color:#b5cd60" href="~/Login/RecuperarSenha"  rel="pop-up">Esqueci a Senha</a>
+                <a  style="margin-top:10px;float:right; text-decoration-color:white; text-decoration:#a9a9a9; color:#b5cd60" href="~/Login/CriarSenha"  rel="pop-up">1º Acesso</a>                    
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10 text-primary text-danger">
+                        @ViewBag.erro
+                    </div>
+                </div>
+                
+            }
+        </section>
+    </div>
+   
+</div>
+
+<div class="text-primary text-success text-center">
+    @ViewBag.sucesso
+</div>
+<blink><p id="piscar" class="text-danger">@TempData["MensagemRetorno"]</p></blink>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Content/style")
+    <link rel="stylesheet" href="~/Content/style.css">
+
+}
+

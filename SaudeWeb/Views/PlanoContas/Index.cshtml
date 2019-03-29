@@ -1,0 +1,99 @@
+﻿@model IEnumerable<SaudeWeb.Models.PlanoConta>
+
+@{
+    ViewBag.Title = "Plano de Contas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Cadastro de Plano de Contas</h2>
+
+<p>
+    @Html.ActionLink("Novo", "Create", null, null, new { @class = "btn btn-sm btn-success", @id = "botaoTop" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Conta)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Descricao)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OperacaoDesc)
+        </th>        
+        <th>
+            @Html.DisplayNameFor(model => model.NivelSuperiorDesc)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @if (item.NivelSuperior == null)
+            {
+                <strong>@Html.DisplayFor(modelItem => item.Conta)</strong>
+            }
+            else
+            {
+                @Html.DisplayFor(modelItem => item.Conta)
+            }
+            
+        </td>
+        <td>
+            @if (item.NivelSuperior == null)
+            {
+                <strong>@Html.DisplayFor(modelItem => item.Descricao)</strong>
+            }
+            else
+            {
+                @Html.DisplayFor(modelItem => item.Descricao)
+            }
+            
+        </td>
+        <td>
+            @if (item.NivelSuperior == null)
+            {
+                <strong>@Html.DisplayFor(modelItem => item.OperacaoDesc)</strong>
+            }
+            else
+            {
+                @Html.DisplayFor(modelItem => item.OperacaoDesc)
+            }
+            
+        </td>        
+        <td>
+            @if (item.NivelSuperior == null)
+            {
+                <strong>@Html.DisplayFor(modelItem => item.NivelSuperiorDesc)</strong>
+            }
+            else
+            {
+                @Html.DisplayFor(modelItem => item.NivelSuperiorDesc)
+            }
+            
+        </td>
+        <td>
+            
+            @Html.ActionLink("Excluir", "Delete", new { id = item.ID }, new { @class = "btn btn-sm btn-danger", @id = "botaoTop" })  
+            @if (item.NivelSuperior == null)
+            {
+                @Html.ActionLink("Editar", "Edit", new { id = item.ID }, new { @class = "btn btn-sm btn-info", @id = "botaoTop" }) 
+                
+            }
+            @if (item.NivelSuperior == null)
+            {
+                
+                @Html.ActionLink("Sub Categoria", "NewSubCategoria", new { id = item.ID }, new { @class = "btn btn-sm btn-danger", @id = "botaoTop" })
+            }
+            @if (item.NivelSuperior != null)
+            {
+                @Html.ActionLink("Editar", "EditSubCategoria", new { id = item.ID }, new { @class = "btn btn-sm btn-info", @id = "botaoTop" })
+
+            }
+            
+        </td>
+    </tr>
+}
+
+</table>

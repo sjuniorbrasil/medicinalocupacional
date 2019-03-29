@@ -1,0 +1,250 @@
+﻿@model IEnumerable<SaudeWeb.Models.FaturaViewModel>
+
+@{
+    ViewBag.Title = "Faturamento";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    
+}
+<div class="panel panel-default">
+    <div id="panelColorido" class="panel-heading">Faturamento<span style="float:right"></span></div>
+    <div id="divPesquisa" class="panel-body">
+        @using (Html.BeginForm("Faturamento", "Financeiro", FormMethod.Get))
+            {
+            <div class="form-horizontal">
+                <h2 style="text-align:center; font-family:Arial; font-weight:700;">Selecione o Cliente e o Período de faturamento:</h2>
+                <fieldset>
+                    <div class="row" style="padding-bottom:8px;">
+                        <div class="form-group col-md-12 row">
+                            @Html.Label("Cadastro", new { @class = "control-label col-md-2" })
+                            <input type="hidden" id="pessoaID" name="pessoaID" />
+                            @Html.TextBox("txtcliente", null, new { @class = "form-control col-md-4 " })
+                            <input type="button" value="..." onclick="PClienteOpen()" class="btn btn-success" id="botaoTop" />
+                        </div>
+
+                        @*<div class="form-group col-md-12">
+                                @Html.Label("Situação", new { @class = "control-label col-md-2" })
+                                @Html.DropDownList("Situacao", null, htmlAttributes: new { @class = "form-control" })
+                            </div>*@
+                        <div class="form-group col-md-12 row">
+                            @Html.Label("Emissão", new { @class = "control-label col-md-2" })
+                            @Html.TextBox("dataEmissao1", null, new { @class = "form-control  col-md-6", @type = "date" })
+                        </div>
+                        <div class="form-group col-md-12 row">
+                            @Html.Label(" à ", new { @class = "control-label col-md-2" })
+                            @Html.TextBox("dataEmissao2", null, new { @class = "form-control  col-md-6", @type = "date" })
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+
+                <input class="btn btn-warning" type="submit" value="Localizar" id="botaoTop" />
+        }
+    </div>
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+  
+  
+
+<table class="table">
+    <tr>        
+        <th>
+            @Html.DisplayNameFor(model => model.PessoaDesc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FuncionarioDesc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ValorFaturar)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DataConsulta)
+        </th>  
+        @*<th>
+            <button type="button" onclick="MostrarExames()" id="botaoTop" class="btn btn-sm btn-default" >
+                Exames
+            </button>
+        </th>*@
+       
+    </tr>
+@if (Model != null)
+{
+    foreach (var item in Model)
+    {
+        <tr>            
+            <td>
+                @Html.DisplayFor(modelItem => item.PessoaDesc)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FuncionarioDesc)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ValorFaturar)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Data)
+            </td>       
+        </tr>
+        @*<tr id="divExameDetal" style="display:none">
+            <td>
+                <table style="width:100%">
+                    <tr>
+                        <th style="width:70%">
+                            @Html.DisplayName("Exame")
+                        </th>
+                        <th style="width:15%">
+                            @Html.DisplayName("Data")
+                        </th>
+                        <th style="width:15%">
+                            @Html.DisplayName("Valor")
+                        </th>
+
+                    </tr>
+                    @foreach (var detalhe in item.Exames)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => detalhe.Descricao)</td>
+                            <td>@Html.DisplayFor(modelItem => detalhe.DataExame)</td>
+                            <td>@Html.DisplayFor(modelItem => detalhe.Valor)</td>
+                        </tr>
+                    }
+                </table>
+            </td>
+        </tr>*@
+    }
+}
+
+</table>
+
+        <div class="row">
+            <label>Valor Total</label>
+            <input type="text" readonly="readonly" name="ValorTotal" id="ValorTotal" value="@ViewBag.Valor" class="form-control" />
+        </div>
+        
+        <div class="row">
+            <label>Vencimento</label>
+            <input  type="date" id="Vencimento" name="Vencimento" class="form-control"  onkeypress="mascaraData( this, event )" />
+
+            <label>Competência</label>
+            <input type="text" id="Competencia" name="Competencia" class="form-control" onkeypress="mesAno(this, event)" placeholder="MM/AAAA" />
+        </div>
+        <div class="row">            
+            <input type="submit" value="Salvar" class="btn btn-success btn-sm" id="botaoTop" />
+            @Html.ActionLink("Voltar", "Faturamento", null, null, new { @class = "btn btn-info btn-sm", @id = "botaoTop" })
+        </div>
+}
+<p style="color:red;font-size:16px">
+   @ViewBag.erro
+</p>
+
+<div id="PCliente" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" style="width:70%" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Clientes Com Faturamento Pendente</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-5">
+                            <div class="input-group">
+                                @Html.TextBox("PClienteFiltro", null, new { @class = "form-control" })
+                                <span class="input-group-btn">
+                                    <input type="button" id="PClienteBuscar" onclick="PClientePesquisa()" value="Localizar" class="btn btn-success" />
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="width:100%; height:400px; overflow-y: scroll">
+                    <table id="PClienteTable" class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th style="width:100px">Controle</th>
+                                <th style="width:400px">Cliente</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="botaoTop">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function MostrarExames() {
+        var x = document.getElementById("divExameDetal");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
+
+
+    function SelecionarCliente(ID, Razao) {
+        $("#pessoaID").val(ID);
+        $("#txtcliente").val(Razao);
+        $('#PCliente').modal('toggle');
+    }
+
+
+    function PClienteOpen() {
+        $("#PCliente").modal("show");
+    }
+
+
+
+    function PClientePesquisa() {
+        PesquisaCliente();
+    }
+
+
+    function PesquisaCliente() {
+
+        var PClienteTable = $("#PClienteTable").DataTable();
+
+        PClienteTable.clear();
+
+        var url = "@Url.Action("PesquisaFaturamentoPendente", "Pesquisa",null)?&filtro=" + $("#PClienteFiltro").val();
+
+        $.getJSON(url, function (data) {
+
+                        $.each(data, function (index, item) {
+                        var botao = item["ID"] + ',"' + item["Razao"] + '"';
+                        botao = "<input type='button' value='Selecionar' onclick='SelecionarCliente(" + botao + ")' class='btn btn-xs btn-success' />";
+
+                        PClienteTable.row.add([item["ID"],
+                                               item["Razao"],
+                                               botao]).draw(false);
+
+                    });
+                }
+            );
+    }
+
+   
+
+     $(document).ready(function () {
+
+         var PClienteTable = $("#PClienteTable").dataTable({
+             "paging": false,
+             "ordering": false,
+             "info": false,
+             "searching": false,
+             "language": {
+                 "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Portuguese-Brasil.json",
+                 "emptyTable": "&nbsp"
+                 
+             }
+         }).DataTable();
+     });   
+</script>

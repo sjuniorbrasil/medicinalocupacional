@@ -1,0 +1,27 @@
+﻿@model SaudeWeb.Models.Consulta
+@{
+    ViewBag.Title = "ImpDeclaracaoComp";
+    Layout = "~/Views/Shared/RepView.cshtml";
+}
+
+<div id="cabecalho">
+    <div id="divLogo">
+        <img id="imgLogo" src="~/Imagens/Logo/@ViewBag.Logo" />
+    </div>
+    <div id="cabecalhoDescricao">
+        <h5>@ViewBag.Razao</h5>
+        <h6 style="margin-top:-5px">@ViewBag.filialEndereco, @ViewBag.filialCidade</h6>
+        <h6 style="margin-top:-5px">@ViewBag.Email</h6>
+        <h3 >DECLARAÇÃO DE COMPARECIMENTO</h3>
+    </div>
+</div>
+<hr />
+<p style="text-align:justify; margin-left:30px; margin-right:20px">
+    Declaro para os devidos fins, que  @ViewBag.Funcionario  da empresa @ViewBag.Cliente compareceu a @ViewBag.Fantasia no dia @ViewBag.DataExtenso, para realização de consulta clínica  ocupacional  @ViewBag.TipoConsulta.  E permaneceu neste local até as __:__h.
+</p>
+<p style="text-align:center;margin-top:200px">
+    @ViewBag.Cidade, @ViewBag.DataExtenso.
+</p>    
+<p style="text-align:center;margin-top:200px; margin-bottom:600px;">
+    @ViewBag.Razao
+</p>

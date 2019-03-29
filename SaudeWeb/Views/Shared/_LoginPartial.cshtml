@@ -1,0 +1,20 @@
+﻿@if (!string.IsNullOrEmpty(ViewBag.UsuarioLogado))
+{
+    using (Html.BeginForm("Sair", "Login", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <a id="linkLI"  href="~/Login/AlterarSenha">@ViewBag.UsuarioLogado</a>
+            </li>
+            <li id="linkLI">@Html.ActionLink("Sair", "Sair", "Login", routeValues: null, htmlAttributes: new { id = "logofftLink"  })</li>
+        </ul>
+    }
+}
+@*else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li>@Html.ActionLink("Entrar", "Index", "Login", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+    </ul>
+}*@

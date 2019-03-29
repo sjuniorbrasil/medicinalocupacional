@@ -1,0 +1,327 @@
+﻿@model SaudeWeb.Models.Empresa
+@using SaudeWeb.Models
+
+
+@{
+    ViewBag.Title = "Empresa";
+}
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Empresa</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ID)
+
+        @Html.HiddenFor(model => model.CNPJ)
+
+        <div class="row">
+            <div class="form-group col-md-6">
+                @Html.LabelFor(model => model.Razao, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.Razao, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Razao, "", new { @class = "text-danger" })
+            </div>
+        
+            <div class="form-group col-md-6">
+                @Html.LabelFor(model => model.Fantasia, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.Fantasia, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Fantasia, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-4">
+                @Html.LabelFor(model => model.CNAE, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.CNAE, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CNAE, "", new { @class = "text-danger" })
+            </div>        
+            <div class="form-group col-md-4">
+                @Html.LabelFor(model => model.IE, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.IE, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.IE, "", new { @class = "text-danger" })
+            </div>        
+            <div class="form-group col-md-4">
+                @Html.LabelFor(model => model.IM, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.IM, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.IM, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-4">
+                @Html.LabelFor(model => model.Endereco, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.Endereco, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Endereco, "", new { @class = "text-danger" })
+            </div>        
+            <div class="form-group col-md-4">
+                @Html.LabelFor(model => model.Bairro, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.Bairro, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Bairro, "", new { @class = "text-danger" })
+            </div>        
+            <div class="form-group col-md-4">
+                @Html.LabelFor(model => model.Numero, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.Numero, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Numero, "", new { @class = "text-danger" })
+            </div>
+        </div>  
+        <div class="row">
+            <div class="form-group col-md-4">
+                @Html.LabelFor(model => model.CidadeID, htmlAttributes: new { @class = "control-label" })
+                @Html.HiddenFor(model => model.CidadeID, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.CidadeDesc, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                <input type="button" value="..." onclick="PCidadeOpen()" class="btn btn-success" id="botaoTop" />
+            </div>        
+            <div class="form-group col-md-4">
+                @Html.LabelFor(model => model.Cep, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.Cep, new { htmlAttributes = new { @class = "form-control", @onkeypress = "mascaraCep(this, event)", @onblur = "ValidaCep(this)", @maxlength = "10" } })
+                @Html.ValidationMessageFor(model => model.Cep, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group col-md-4">
+                @Html.LabelFor(model => model.Fone, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.Fone, new { htmlAttributes = new { @class = "form-control", @onkeypress = "MascaraTelefone(this, event)" } })
+                @Html.ValidationMessageFor(model => model.Fone, "", new { @class = "text-danger" })
+            </div>
+        </div>  
+        <div class="row">
+            <div class="form-group col-md-6">
+                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>      
+            <div class="form-group col-md-6">
+                @Html.LabelFor(model => model.Responsavel, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.Responsavel, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Responsavel, "", new { @class = "text-danger" })
+            </div> 
+        </div>  
+        <div class="row">
+            <div class="form-group col-md-3" style="margin-right:2px">
+                @Html.LabelFor(model => model.Audiometro, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.Audiometro, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Audiometro, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group col-md-2" style="margin-right:2px">
+                @Html.LabelFor(model => model.DataCalibracao, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.DataCalibracao, new { htmlAttributes = new { @class = "form-control", @onblur = "ValidaData(this)", @onkeypress = "mascaraData( this, event )", @placeholder = "DD/MM/AAAA" } })
+                @Html.ValidationMessageFor(model => model.DataCalibracao, "", new { @class = "text-danger" })
+            </div>  
+            <div class="form-group col-md-4">
+                @Html.HiddenFor(model => model.PlanoContaConsulta, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.Label("Plano de Contas", htmlAttributes: new { @class = "control-label " })
+                @Html.EditorFor(model => model.PlanoContaConsultaDesc, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                <input type="button" value="..." onclick="PCategoriaOpen()" class="btn btn-success" id="botaoTop" />
+            </div>
+        </div>  
+        
+              
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Salvar" class="btn btn-success btn-sm" id="botaoTop" />
+                <input type="button" value="Voltar" onclick="window.history.back()" class="btn btn-info btn-sm" id="botaoTop" />
+            </div>
+         </div>
+    </div>
+ }
+
+    <div>
+</div>
+<div class="row" style="border:0.5px solid #282e33;border-radius:5px">
+    <div style="width:45%;float:left;margin-left:5px;">
+        <form action="/Empresas/SalvaImg" method="post" enctype="multipart/form-data">
+            <label for="file">Logomarca</label>
+            <input class="btn btn-default" type="file" name="file" id="file" value="Localizar" />
+            <input type="submit" class="btn btn-default btn-sm" value="Salvar Imagem" id="botaoTop" />
+            <p style="color:red">
+                @TempData["MensagemRetorno"]
+            </p>
+        </form>
+    </div>
+    <div style="width:54%;float:left">
+        <img style="border:3.5px solid #b5cd60; border-radius:5px;float:right" id="imgLogo" src="~/Imagens/Logo/@ViewBag.Logo" />
+    </div>
+
+</div>
+
+<div id="PCategoria" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" style="width:70%" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Categorias</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-5">
+                            <div class="input-group">
+                                @Html.TextBox("PCategoriaFiltro", null, new { @class = "form-control" })
+                                <span class="input-group-btn">
+                                    <input type="button" id="PCategoriaBuscar" onclick="PCategoriaPesquisa()" value="Localizar" class="btn btn-success" />
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="width:100%; height:400px; overflow-y: scroll">
+                    <table id="PCategoriaTable" class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th style="width:100px">Controle</th>
+                                <th style="width:400px">Conta</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="PCidade" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" style="width:70%" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Cidades</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-5">
+                            <div class="input-group">
+                                @Html.TextBox("PCidadeFiltro", null, new { @class = "form-control" })
+                                <span class="input-group-btn">
+                                    <input type="button" id="PCidadeBuscar" onclick="PCidadePesquisa()" value="Localizar" class="btn btn-success" />
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="width:100%; height:400px; overflow-y: scroll">
+                    <table id="PCidadeTable" class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th style="width:100px">Controle</th>
+                                <th style="width:400px">Descrição</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function SelecionarCategoria(ID, PlanoContaDesc) {
+        $("#PlanoContaConsulta").val(ID);
+        $("#PlanoContaConsultaDesc").val(PlanoContaDesc);
+        $('#PCategoria').modal('toggle');
+    }
+    function PCategoriaOpen() {
+        $("#PCategoria").modal("show");
+    }
+    function PCategoriaPesquisa() {
+        PesquisaCategoria();
+    }
+    function SelecionarCidade(ID, CidadeUF) {
+        $("#CidadeID").val(ID);
+        $("#CidadeDesc").val(CidadeUF);
+        $('#PCidade').modal('toggle');
+    }
+
+    function PCidadeOpen() {
+        $("#PCidade").modal("show");
+    }
+
+
+
+function PCidadePesquisa() {
+    PesquisaCidade();
+}
+
+        
+            function PesquisaCidade() {
+
+                var PCidadeTable = $("#PCidadeTable").DataTable();
+
+                PCidadeTable.clear();
+
+                var url = "@Url.Action("PesquisaCidade","Pesquisa",null)?&filtro=" + $("#PCidadeFiltro").val();
+
+    $.getJSON(url, function (data) {
+
+                    $.each(data, function (index, item) {
+                        var botao = item["ID"] + ',"' + item["CidadeUF"] + '"';
+                    botao = "<input type='button' value='Selecionar' onclick='SelecionarCidade(" + botao + ")' class='btn btn-xs btn-success' />";
+
+                    PCidadeTable.row.add([item["ID"],
+                        item["CidadeUF"],
+                                           botao]).draw(false);
+
+                });
+            }
+        );
+            }
+    function PesquisaCategoria() {
+
+    var PCategoriaTable = $("#PCategoriaTable").DataTable();
+
+    PCategoriaTable.clear();
+
+    var url = "@Url.Action("PesquisaCategoria","Pesquisa",null)?&filtro=" + $("#PCategoriaFiltro").val();
+
+    $.getJSON(url, function (data) {
+
+                    $.each(data, function (index, item) {
+                        var botao = item["ID"] + ',"' + item["PlanoContaDesc"] + '"';
+                    botao = "<input type='button' value='Selecionar' onclick='SelecionarCategoria(" + botao + ")' class='btn btn-xs btn-success' />";
+
+                    PCategoriaTable.row.add([item["ID"],
+                        item["PlanoContaDesc"],
+                                           botao]).draw(false);
+
+                });
+            }
+        );
+}
+
+
+
+ $(document).ready(function () {
+
+     var PCidadeTable = $("#PCidadeTable").dataTable({
+         "paging": false,
+         "ordering": false,
+         "info": false,
+         "searching": false,
+         "language": {
+             "emptyTable": "&nbsp"
+         }
+     }).DataTable();
+ });
+            $(document).ready(function () {
+
+                var PCategoriaTable = $("#PCategoriaTable").dataTable({
+                    "paging": false,
+                    "ordering": false,
+                    "info": false,
+                    "searching": false,
+                    "language": {
+                        "emptyTable": "&nbsp"
+                    }
+                }).DataTable();
+            });
+</script>

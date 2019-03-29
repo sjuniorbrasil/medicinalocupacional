@@ -1,0 +1,94 @@
+﻿@{
+    Layout = null;
+}
+@model IEnumerable<SaudeWeb.Models.Consulta>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicina Ocupacional - @ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <script type='text/javascript'>
+
+       function imprimir() {
+           var op = $("#imprimir").val();
+           if (op == "imprimir") {
+               document.getElementById("imprimir").style.visibility = "hidden";
+               document.getElementById("btnVoltar").style.visibility = "hidden";
+               window.print();
+               document.getElementById("imprimir").style.visibility = "visible";
+               document.getElementById("btnVoltar").style.visibility = "visible";
+           }
+       }
+
+    </script>
+</head>
+<body>
+    <div>
+        <h2 style="text-align:center">Consultas Realizadas</h2>
+
+        <p>___________________________________________________________________________________________________________________________________________________________________________________________</p>
+        <div style="margin-left:750px">
+            <a id="btnVoltar" href="~/report/repConsultafiltro/" class="btn btn-default btn-sm">Voltar</a>
+            <button type="button" onClick="imprimir()" id="imprimir" value="imprimir" class="btn btn-default btn-sm">
+                <span class="glyphicon glyphicon-print"></span> Imprimir
+            </button>
+        </div>
+
+        <table>
+            <tr>
+                <th style="height:5px; width:200px;font-size:10px">
+                    Cliente
+                </th>
+                <th style="height:5px; width:200px;font-size:10px">
+                    Funcionario
+                </th>
+                <th style="height:5px; width:200px;font-size:10px">
+                    Situação da Consulta
+                </th>
+                <th style="height:5px; width:100px;font-size:10px">
+                    Tipo
+                </th>
+                <th style="height:5px; width:100px;font-size:10px">
+                    Data
+                </th>
+
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ClienteDesc)
+                    </td>
+                    <td style="text-decoration:none">
+                        @Html.DisplayFor(modelItem => item.funcionarioDesc)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AptoInapto)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TipoAso)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DataConsulta)
+                    </td>
+                </tr>
+            }
+        </table>
+        <footer >
+            <p>___________________________________________________________________________________________________________________________________________________________________________________________</p>
+            <p>&copy; @DateTime.Now.Year - Heavy Users Sistemas<span style="margin-left:500px">MEDICINA OCUPACIONAL</span></p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <link href="~/Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="~/Scripts/DataTables/jquery.dataTables.js" type="text/javascript"></script>
+
+</body>
+</html>

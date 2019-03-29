@@ -1,0 +1,172 @@
+﻿@model IEnumerable<SaudeWeb.Models.Pessoa>
+
+@{
+    ViewBag.Title = "Clientes";
+}
+<style>
+    #rdQtde {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        border-radius: 50%;
+        width: 16px;
+        height: 16px;
+        border: 2px solid #b5cd60;
+        transition: 0.2s all linear;
+        outline: none;
+        margin-right: 5px;
+        position: relative;
+        top: 4px;
+    }
+
+        #rdQtde:checked {
+            border: 5px solid #282e33;
+            background: #b5cd60;
+        }
+    .containerCheckbox {
+        margin-top: 25px;
+        display: block;
+        position: relative;
+        padding-left: 35px;
+        margin-bottom: 12px;
+        cursor: pointer;
+        font-size: 22px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+
+        .containerCheckbox input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 25px;
+        width: 25px;
+        background-color: #b5cd60;
+    }
+
+    .containerCheckbox:hover input ~ .checkmark {
+        background-color: #ccc;
+    }
+
+    .containerCheckbox input:checked ~ .checkmark {
+        background-color: #282e33;
+    }
+
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    .containerCheckbox input:checked ~ .checkmark:after {
+        display: block;
+    }
+
+    .containerCheckbox .checkmark:after {
+        left: 9px;
+        top: 5px;
+        width: 5px;
+        height: 10px;
+        border: solid #b5cd60;
+        border-width: 0 3px 3px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+</style>
+<div class="panel panel-default">
+    <div id="panelColorido" class="panel-heading">Clientes<span style="float:right"><a style="margin-top:-3px" id="botaoTop" onclick="mostrarPesquisa()" class="btn btn-default btn-sm">...</a></span></div>
+    <div id="divPesquisa" class="panel-body" style="display:none">
+        @using (Html.BeginForm())
+            {
+            <div class="form-horizontal">
+                <h2 style="text-align:center; font-family:Arial; font-weight:700;">Localizar por:</h2>
+                <fieldset>
+                    <div class="row" style="padding-bottom:8px;">
+                        <div class="form-group col-md-12">
+                            @Html.Label("Nome", new { @class = "control-label col-md-2" })
+                            @Html.TextBox("txtnome", null, new { @class = "form-control col-md-4 " })
+                        </div>
+                        <div class="form-group col-md-12">                            
+                            <label style="float:right" class="containerCheckbox">
+                                Apenas ativos
+                                <input type="checkbox" id="checkAtivo" name="checkAtivo" value="1"  checked>
+                                <span class="checkmark"></span>
+                            </label>                                                       
+                        </div>
+                    </div>
+                    <div class="row" style="width:200px;float:right;margin-right:5px;height:90px">
+                        <label>Quantidade de Registros</label>
+                        <div style="border: 0.5px solid #ccc; border-radius:10px">
+                            <input id="rdQtde" style="margin-left:3px" type="radio" name="qtdeReg" value="1000"> Todos<br>
+                            <input id="rdQtde" style="margin-left:3px" type="radio" name="qtdeReg" value="100"> 100<br>
+                            <input id="rdQtde" style="margin-left:3px" type="radio" name="qtdeReg" value="10" checked> 10<br>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+
+            <input class="btn btn-warning" type="submit" value="Localizar" id="botaoTop"/>
+        }
+    </div>
+</div>
+
+<p>
+    @Html.ActionLink("Novo", "Create", null, null, new { @class = "btn btn-sm btn-success", @id = "botaoTop" })
+</p>
+<table class="table">
+    <tr>       
+        
+        <th>
+            @Html.DisplayNameFor(model => model.Razao)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Fantasia)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.cidade.Descricao)
+        </th>
+        
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+      
+        <td>
+            @Html.DisplayFor(modelItem => item.Razao)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Fantasia)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CidadeDesc)
+        </td>
+
+        <td>
+            @Html.ActionLink(" ", "Edit", new {  id=item.ID }, new { @class = "fa fa-pencil-square", @id = "botaoTop", @style = "font-size:24px;padding-left:2.5px;padding-bottom:0;padding-rigth:0;padding-top:0;width:26px;", @title = "Editar" })             
+            @Html.ActionLink(" ", "Delete", new {  id=item.ID }, new { @class = "fa fa-trash", @id = "botaoTop", @style = "font-size:24px;padding-left:2.5px;padding-bottom:0;padding-rigth:0;padding-top:0;width:26px", @title = "Excluir" })
+        </td>
+    </tr>
+}
+
+</table>
+<script>
+    function mostrarPesquisa() {
+        var x = document.getElementById("divPesquisa");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
+</script>

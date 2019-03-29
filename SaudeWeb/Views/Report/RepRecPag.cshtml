@@ -1,0 +1,188 @@
+﻿@model IEnumerable<SaudeWeb.Models.Financeiro>
+
+@{
+    ViewBag.Title = "Relatório Contas a Pagar/Receber";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicina Ocupacional - @ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <style>
+    </style>
+    <script type='text/javascript'>
+
+        function imprimirRecibo() {
+            var op = $("#imprimir").val();
+            if (op == "imprimir") {
+                document.getElementById("imprimir").style.visibility = "hidden";
+                document.getElementById("voltar").style.visibility = "hidden";
+                window.print();
+                document.getElementById("imprimir").style.visibility = "visible";
+                document.getElementById("voltar").style.visibility = "visible";
+            }
+        }
+
+    </script>
+</head>
+<body>
+    @if (Model != null)
+    {
+        using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <h2 style="margin-top:-50px">Relatório Contas a Pagar/Receber</h2>
+            <h6 >Cadastro: @ViewBag.Cadastro</h6>
+            <h6 style="margin-top:-7px">Situação: @ViewBag.Situacao</h6>
+            <h6 style="margin-top:-7px">Tipo: @ViewBag.Tipo</h6>
+            <h6 style="margin-top:-7px">Emissão: @ViewBag.Emissao</h6>
+            <h6 style="margin-top:-7px">Vencimento: @ViewBag.Vencimento</h6>
+            <h6 style="margin-top:-7px">Liquidação: @ViewBag.Liquidacao</h6>
+            <table class="table">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IDParcela)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.NumeroDocumento)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TipoDesc)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ClienteDesc)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Valor)
+                    </th>    
+                    <th>
+                        @Html.DisplayNameFor(model => model.JMD)
+                    </th>  
+                    <th>
+                        @Html.DisplayNameFor(model => model.ValorBaixado)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.VencimentoFormatado)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DataLiquidacao)
+                    </th>                   
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IDParcela)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NumeroDocumento)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TipoDesc)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ClienteDesc)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Valor)
+                        </td>   
+                        <td>
+                            @Html.DisplayFor(modelItem => item.JMD)
+                        </td> 
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ValorBaixado)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.VencimentoFormatado)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LiquidacaoFormatado)
+                        </td>                       
+                    </tr>
+                }
+
+            </table>
+
+            <div class="row" style="margin-left:20px">
+                @*@if (ViewBag.receberPendente > 0)
+                {
+                    <label>Pendente a Receber</label>
+                    <p>@ViewBag.receberPendente</p>
+                }
+                @if (ViewBag.receberPagar > 0)
+                {
+                    <label>Pendente a Pagar</label>
+                    <p>@ViewBag.receberPagar</p>
+                }
+                @if (ViewBag.recebido > 0)
+                {
+                    <label>Recebido</label>
+                    <p>@ViewBag.recebido</p>
+                }
+                @if (ViewBag.pago > 0)
+                {
+                    <label>Pago</label>
+                    <p>@ViewBag.pago</p>
+                }*@
+                <div style="float:left;width:200px;height:100%">
+                    <label>Pendente a Receber</label>
+                    <p>@ViewBag.receberPendente</p>
+                </div>
+                
+                <div style="float:left;width:200px;height:100%">
+                    <label>Pendente a Pagar</label>
+                    <p>@ViewBag.pagarPendente</p>
+                </div>
+                <div style="float:left;width:200px;height:100%">
+                    <label>Saldo Pendente</label>
+                    <p>@ViewBag.SaldoPendente</p>    
+                </div>
+                <div style="float:left;width:200px;height:100%">
+                    <label>Recebido</label>
+                    <p>@ViewBag.recebido</p>
+                </div>
+                <div style="float:left;width:200px;height:100%">
+                    <label>Pago</label>
+                    <p>@ViewBag.pago</p>
+                </div>
+                <div style="float:left;width:200px;height:100%">
+                    <label>Saldo Liquidado</label>
+                    <p>@ViewBag.SaldoLiquidado</p>
+                </div>
+            </div>
+
+
+            <hr />
+            <div style="margin-left:750px">
+                <button type="button" onClick="history.back()" id="voltar" class="btn btn-default btn-sm">
+                    Voltar
+                </button>
+                <button type="button" onClick="imprimirRecibo()" id="imprimir" value="imprimir" class="btn btn-default btn-sm">
+                    <span class="glyphicon glyphicon-print"></span> Imprimir
+                </button>
+            </div>
+            <footer>
+                <p>&copy; @DateTime.Now.Year - Heavy Users Sistemas</p>
+            </footer>
+        }
+    }
+    else
+    {
+        <div>
+            <p style="font-size:30px; margin-left:20px;color: red">Registro Inexistente</p>
+            <p>@Html.ActionLink("Voltar", "RepRecPagFiltro", null, null, new { @class = "btn btn-info btn-defaut" })</p>
+        </div>
+    }
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <link href="~/Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="~/Scripts/DataTables/jquery.dataTables.js" type="text/javascript"></script>
+
+</body>
+</html>

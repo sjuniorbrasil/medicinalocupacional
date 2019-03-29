@@ -1,0 +1,160 @@
+﻿@model IEnumerable<SaudeWeb.Models.BancoCaixa>
+
+@{
+    ViewBag.Title = "Conta Corrente/Caixa";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="panel panel-default">
+    <div id="panelColorido" class="panel-heading">Conta Corrente Caixa<span style="float:right"><a style="margin-top:-3px" id="botaoTop" onclick="mostrarPesquisa()" class="btn btn-default btn-sm">...</a></span></div>
+    <div id="divPesquisa" class="panel-body" style="display:none">
+        @using (Html.BeginForm())
+            {
+            <div class="form-horizontal">
+                <h2 style="text-align:center; font-family:Arial; font-weight:700;">Filtrar por:</h2>
+                <fieldset>
+                    <div class="row" style="padding-bottom:8px;">                      
+
+                        <div class="form-group col-md-12 row">
+                            @Html.Label("Conta", new { @class = "control-label col-md-2" })
+                            @Html.DropDownList("contaID", null,"TODAS", htmlAttributes: new { @class = "form-control" })
+                        </div>
+                        <div class="form-group col-md-12 row">
+                            @Html.Label("Apuração", new { @class = "control-label col-md-2" })
+                            @Html.DropDownList("opcao", null, htmlAttributes: new { @class = "form-control" })
+                        </div>                        
+                        <div class="form-group col-md-12 row">
+                            @Html.Label("Período", new { @class = "control-label col-md-2" })
+                            @Html.TextBox("data1", null, new { @class = "form-control  col-md-6", @type = "date" })
+                        </div>
+                        <div class="form-group col-md-12 row">
+                            @Html.Label(" à ", new { @class = "control-label col-md-2" })
+                            @Html.TextBox("data2", null, new { @class = "form-control  col-md-6", @type = "date" })
+                        </div>
+                        <div class="form-group col-md-12 row">
+                            @Html.Label("Situação", new { @class = "control-label col-md-2" })
+                            @Html.DropDownList("situacao", null, htmlAttributes: new { @class = "form-control" })
+                        </div>
+                    </div>
+                    
+                </fieldset>
+            </div>
+            <input class="btn btn-warning" type="submit" value="Localizar" id="botaoTop" />
+        }
+    </div>
+</div>
+
+<p>
+    @Html.ActionLink("Novo", "Create", null, null, new { @class = "btn btn-sm btn-success", @id = "botaoTop" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Conta)
+        </th>   
+        <th>
+            @Html.DisplayNameFor(model => model.DataEmissaoF)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DataVencimentoF)
+        </th> 
+        <th>
+            @Html.DisplayNameFor(model => model.NumeroDocumento)
+        </th> 
+        <th>
+            @Html.DisplayNameFor(model => model.valor)
+        </th>   
+        <th>
+            @Html.DisplayNameFor(model => model.TipoDesc)
+        </th>
+             
+        <th>
+            @Html.DisplayNameFor(model => model.DataConciliacaoF)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Obs)
+        </th>       
+        
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr >
+        <td >
+            @Html.DisplayFor(modelItem => item.Conta)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DataEmissaoF)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DataVencimentoF)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NumeroDocumento)
+        </td>
+        <td style="text-align:right">
+            @Html.DisplayFor(modelItem => item.ValorF)
+        </td>
+        @if (item.Tipo == 1)
+        {
+            <td style="color:steelblue">
+                @Html.DisplayFor(modelItem => item.TipoDesc)
+            </td>
+        }
+        else
+        {
+            <td  style="color:red">
+                @Html.DisplayFor(modelItem => item.TipoDesc)
+            </td>
+        }
+        <td>
+            @Html.DisplayFor(modelItem => item.DataConciliacaoF)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Obs)
+        </td>
+        
+        <td>
+            @Html.ActionLink(" ", "Edit", new { id = item.ID, baixaid = item.BaixaID }, new { @class = "fa fa-pencil-square", @id = "botaoTop", @style = "font-size:24px;padding-left:2.5px;padding-bottom:0;padding-rigth:0;padding-top:0;width:26px;", @title = "Editar" })
+            @Html.ActionLink(" ", "Delete", new { id = item.ID, baixaid = item.BaixaID }, new { @class = "fa fa-trash", @id = "botaoTop", @style = "font-size:24px;padding-left:2.5px;padding-bottom:0;padding-rigth:0;padding-top:0;width:26px", @title = "Excluir" })
+        </td>
+    </tr>
+}
+
+</table>
+<div class="container">
+
+    <div style="float:left;width:45%">
+        <p style="text-align:left; color:steelblue">Créditos no Período: @ViewBag.SaldoCredito</p>
+        <p style="text-align:left; color:red">Débitos no Período: @ViewBag.SaldoDebito</p>
+        <p style="text-align:left; ">Saldo no Período: @ViewBag.SaldoCreditoDebito</p>
+
+    </div>
+
+    <div style="float:right;margin-right:10px;width:50%">
+
+        @if (ViewBag.Saldo > 0)
+        {
+            <p style="text-align:right; color:steelblue">SALDO EM CONTA: @ViewBag.SaldoF</p>
+        }
+        else
+        {
+            <p style="text-align:right; color:red"><strong style="color:#282e33;font-size:150%">SALDO EM CONTA:</strong> <span style="margin-left:10px">@ViewBag.SaldoF</span></p>
+
+        }
+    </div>
+</div>
+<br />
+
+<script>  
+
+
+     function mostrarPesquisa() {
+         var x = document.getElementById("divPesquisa");
+         if (x.style.display === "none") {
+             x.style.display = "block";
+         } else {
+             x.style.display = "none";
+         }
+     }
+</script>

@@ -1,0 +1,1399 @@
+﻿@model SaudeWeb.Models.Consulta
+
+@{
+    ViewBag.Title = "Questionário de Saúde";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <hr />
+        <p style="color:red">
+            @ViewBag.erro
+        </p>       
+        @Html.HiddenFor(model => model.FinanceiroID)
+        <div class="row" style="width:100%">
+            <button id="butao" class="btn-default btn-sm" style="float:left;" type="button" onclick="mostrarAsoLinha1()">
+                Dados da Consulta<span class="glyphicon glyphicon-list-alt" style="float:right;font-size:28px; margin-top:-3px"></span>
+            </button>
+        </div>
+        <div class="container" id="asoLinha1">
+            <div class="row">
+                <div class="form-group col-md-4" style="margin-right:5px">
+                    @Html.LabelFor(model => model.Id, htmlAttributes: new { @class = "control-label " })
+                    @Html.EditorFor(model => model.Id, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.Id, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group col-md-4" style="margin-right:5px">
+                    @Html.Label("Código", htmlAttributes: new { @class = "control-label " })                    
+                    @Html.EditorFor(model => model.PessoaId, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.PessoaId, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group col-md-4" >
+                    @Html.Label("Cliente", htmlAttributes: new { @class = "control-label " })                   
+                    @Html.EditorFor(model => model.ClienteDesc, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    <input type="button" value="..." onclick="PClienteOpen()" class="btn btn-success" id="botaoTop" />
+                </div>               
+            </div>
+            <div class="row">
+                <div class="form-group col-md-4" style="margin-right:5px" >
+                    @Html.LabelFor(model => model.TipoConsulta, htmlAttributes: new { @class = "control-label " })
+                    @Html.DropDownList("TipoConsulta", null, htmlAttributes: new { @class = "form-control" })                    
+                    @Html.ValidationMessageFor(model => model.TipoConsulta, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group col-md-4" style="margin-right:5px">
+                    @Html.LabelFor(model => model.FormaPagamento, htmlAttributes: new { @class = "control-label " })
+                    @Html.DropDownList("FormaPagamento", null, htmlAttributes: new { @class = "form-control" })                    
+                    @Html.ValidationMessageFor(model => model.FormaPagamento, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group col-md-4" >
+                    @Html.LabelFor(model => model.DataConsulta, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.DataConsulta, new { htmlAttributes = new { @class = "form-control", @onblur = "ValidaData(this)", @type = "text", @onkeypress = "mascaraData( this, event )", @maxlength = "10", @placeholder = "DD/MM/AAAA" } })
+                    @Html.ValidationMessageFor(model => model.DataConsulta, "", new { @class = "text-danger" })
+                </div>               
+           </div>
+            </div>
+        <div class="row" style="width:100%">
+            <button id="butao" class="btn-default btn-sm" style="float:left;" type="button" onclick="mostrarAsoLinha2()">
+                Dados Funcionário<span class="fa fa-id-card" style="float:right;font-size:28px; margin-top:-3px"></span>
+            </button>
+        </div>
+        <div class="container" id="asoLinha2" style="display:none">
+            <div style=" width:100%; margin-top:10px">
+                <a href="\Funcionarios\Create" target="_blank" style="float:right" class="btn btn-warning btn-sm" id="botaoTop">
+                    Novo Funcionário
+                </a>
+            </div>  
+            <div class="row" >
+                <div class="form-group col-md-1" style="margin-right:5px">
+                    @Html.Label("Código", htmlAttributes: new { @class = "control-label " })                    
+                    @Html.EditorFor(model => model.FuncionarioId, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.FuncionarioId, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group col-md-4" style="margin-right:5px">
+                    @Html.Label("Funcionário", htmlAttributes: new { @class = "control-label " })
+                    @Html.EditorFor(model => model.funcionarioDesc, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    <input type="button" value="..." onclick="PFuncionarioOpen()" class="btn btn-success" id="botaoTop" />
+                </div>              
+                <div class="form-group col-md-3" style="margin-right:5px">
+                    @Html.LabelFor(model => model.SetorId, htmlAttributes: new { @class = "control-label " })
+                    @Html.DropDownList("SetorId", null, htmlAttributes: new { @class = "form-control" })
+                </div>
+                <div class="form-group col-md-3" >
+                    @Html.LabelFor(model => model.FuncaoId, htmlAttributes: new { @class = "control-label " })
+                    @Html.DropDownList("FuncaoId", null, htmlAttributes: new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-4" style="margin-right:5px" >
+                    @Html.LabelFor(model => model.UltimoEmprego, htmlAttributes: new { @class = "control-label " })
+                    @Html.EditorFor(model => model.UltimoEmprego, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.UltimoEmprego, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group col-md-4" style="margin-right:5px">
+                    @Html.LabelFor(model => model.UltimaFuncaoExercida, htmlAttributes: new { @class = "control-label " })
+                    @Html.EditorFor(model => model.UltimaFuncaoExercida, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.UltimaFuncaoExercida, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group col-md-4" >
+                    @Html.LabelFor(model => model.TempoPermanenciaUltiMoEmprego, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.TempoPermanenciaUltiMoEmprego, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.TempoPermanenciaUltiMoEmprego, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row" >
+                <div class="form-group col-md-3" style="margin-right:5px" >
+                    @Html.LabelFor(model => model.Peso, htmlAttributes: new { @class = "control-label " })
+                    @Html.EditorFor(model => model.Peso, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Peso, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group col-md-3" style="margin-right:5px">
+                    @Html.LabelFor(model => model.Altura, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.Altura, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Altura, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group col-md-3" style="margin-right:5px">
+                    @Html.LabelFor(model => model.Temperatura, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.Temperatura, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Temperatura, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group col-md-3" >
+                    @Html.LabelFor(model => model.PressaoArterial, htmlAttributes: new { @class = "control-label " })
+                    @Html.EditorFor(model => model.PressaoArterial, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.PressaoArterial, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="row" style="width:100%">
+            <button id="butao" class="btn-default btn-sm" style="float:left;" type="button" onclick="mostrarAsoAgentes()">
+                Agentes de Risco<span class="glyphicon glyphicon-fire" style="float:right;font-size:28px; margin-top:-3px"></span>
+            </button>
+        </div>
+        <div class="container" id="divAsoAgentes" style="display:none">
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <hr />
+                    <h4 style="float:left;width:30%">Agentes</h4>
+                    <button style="float:right" type="button" class="btn-success btn-sm" onclick="PAgenteOpen()" id="botaoTop">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </button>
+                </div>
+            </div>
+           
+        <div class="row">
+            <div class="form-group col-md-12">
+                <table class="table table-striped table-hover">
+                <tr>
+                    <th>
+                        @Html.Label("Controle")
+                    </th>
+                    <th>
+                        @Html.Label("Agente")
+                    </th>
+                    <th >
+                        @Html.Label("Risco")
+                    </th>
+                    <th>
+
+                    </th>
+                </tr>
+                @foreach (var item in Model.AgentesC)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AgenteId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AgenteDesc)
+                        </td>
+                        <td >
+                            @Html.DisplayFor(modelItem => item.RiscoDesc)
+                        </td>
+                        
+                        <td>                            
+                            @Html.ActionLink("Remover", "DelAgente", new { ID = Model.Id, agenteId = item.AgenteId }, new { @class = "btn btn-xs btn-defaut", @style = "width: 70px", @id="botaoExclui" })
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+        </div>
+        </div>
+        <div class="row" style="width:100%">
+            <button id="butao" class="btn-default btn-sm" style="float:left;" type="button" onclick="mostrarAsoExames()" >
+                Exames Complementares<span class="fa fa-stethoscope" style="float:right;font-size:28px; margin-top:-3px"></span>
+            </button>
+        </div>
+        <div class="container" id="divAsoExames" style="display:none">
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <hr />
+                    <h4>Exames Complementares</h4>
+                    @if (ViewBag.TemFinanceiro == false)
+                    {
+                        <button style="float:right" type="button" class="btn-success btn-sm" onclick="PExameOpen()" id="botaoTop">
+                            <span class="glyphicon glyphicon-plus"></span>
+                        </button>
+                    }
+                    else
+                    {
+                        <button disabled style="float:right" type="button" class="btn-success btn-sm" onclick="PExameOpen()" id="botaoTop">
+                            <span class="glyphicon glyphicon-plus"></span>
+                        </button>
+                    }
+                    
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <table class="table table-striped table-hover">
+                        <tr>
+                            <th>
+                                @Html.Label("Controle")
+                            </th>
+                            <th>
+                                @Html.Label("Exame")
+                            </th>
+                            <th>
+                                @Html.Label("Data da Coleta")
+                            </th>
+                            <th>
+                                @Html.Label("Resultado")
+                            </th>
+                            <th>
+
+                            </th>
+                        </tr>
+                        @foreach (var item in Model.ExamesC)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ExameId)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ExameDesc)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DataColetaF)
+                                </td>   
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ResultadoExames)
+                                </td>  
+                                <td>
+                                    
+                                    @if (ViewBag.TemFinanceiro == false)
+                                    {
+
+                                        @Html.ActionLink("Editar", "EditExame", "Consultas", new { ID = Model.Id, exameId = item.ExameId }, new { @class = "btn btn-xs btn-defaut", @style = "width: 70px;margin-rigth:2px", @id = "botaoTop" })
+                                        @Html.ActionLink("Remover", "DelExame", new { ID = Model.Id, exameId = item.ExameId }, new { @class = "btn btn-xs btn-defaut", @style = "width: 70px", @id = "botaoExclui" })
+                                    }
+                                    else
+                                    {                                        
+                                        @Html.ActionLink("Editar", "EditExame", "Consultas", new { ID = Model.Id, exameId = item.ExameId }, new { @class = "btn btn-xs btn-defaut", @style = "width: 70px;margin-rigth:2px", @id = "botaoTop", @disabled = "disabled" })
+                                        @Html.ActionLink("Remover", "DelExame", new { ID = Model.Id, exameId = item.ExameId }, new { @class = "btn btn-xs btn-defaut", @style = "width: 70px", @id = "botaoExclui", @disabled="disabled" })
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="row" style="width:100%">
+            <button id="butao" class="btn-default btn-sm" style="float:Left;" type="button" onclick="mostrarAsoLinha3()">
+                Conclusão<span class="glyphicon glyphicon-check" style="float:right;font-size:28px; margin-top:-3px"></span>
+            </button>
+        </div>
+        <div class="container" id="asoLinha3" style="display:none">
+            <div class="row" >
+                <div class="form-group col-md-4">
+                    @Html.LabelFor(model => model.SituacaoConsulta, htmlAttributes: new { @class = "control-label" })
+                    @Html.DropDownList("SituacaoConsulta", null, htmlAttributes: new { @class = "form-control" })                    
+                    @Html.ValidationMessageFor(model => model.SituacaoConsulta, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group col-md-4">
+                    @*@Html.LabelFor(model => model.MedicoExaminadorId, htmlAttributes: new { @class = "control-label " })
+                    @Html.DropDownList("MedicoExaminadorId", null, htmlAttributes: new { @class = "form-control" })                    
+                    @Html.ValidationMessageFor(model => model.MedicoExaminadorId, "", new { @class = "text-danger" })*@
+                    @Html.HiddenFor(model => model.MedicoExaminadorId)
+                    @Html.Label("Médico", htmlAttributes: new { @class = "control-label " })
+                    @Html.EditorFor(model => model.MedicoDesc, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    <input type="button" value="..." onclick="PMedicoExaminadorOpen()" class="btn btn-success" id="botaoTop" />
+                </div>
+                <div class="form-group col-md-2">
+                    @Html.LabelFor(model => model.DataConclusao, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.DataConclusao, new { htmlAttributes = new { @class = "form-control", @onblur = "ValidaData(this)", @type = "text",@onkeypress = "mascaraData( this, event )", @maxlength = "10", @placeholder = "DD/MM/AAAA" } })
+                    @Html.ValidationMessageFor(model => model.DataConclusao, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group col-md-2">
+                    @Html.LabelFor(model => model.ProximaConsulta, htmlAttributes: new { @class = "control-label " })
+                    @Html.EditorFor(model => model.ProximaConsulta, new { htmlAttributes = new { @class = "form-control", @onblur = "ValidaData(this)", @type = "text", @onkeypress = "mascaraData( this, event )", @maxlength = "10", @placeholder = "DD/MM/AAAA" } })
+                    @Html.ValidationMessageFor(model => model.ProximaConsulta, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row" >
+                <div class="form-group col-md-6">
+                    @Html.LabelFor(model => model.EncaMinhamentoEspecialista, htmlAttributes: new { @class = "control-label " })
+                    @Html.EditorFor(model => model.EncaMinhamentoEspecialista, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.EncaMinhamentoEspecialista, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group col-md-6">
+                    @Html.LabelFor(model => model.DataEncaminhado, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.DataEncaminhado, new { htmlAttributes = new { @class = "form-control", @onblur = "ValidaData(this)", @type = "text", @onkeypress = "mascaraData( this, event )", @maxlength = "10", @placeholder = "DD/MM/AAAA" } })
+                    @Html.ValidationMessageFor(model => model.DataEncaminhado, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row" >
+                <div class="form-group col-md-12">
+                    @Html.LabelFor(model => model.Observacao, htmlAttributes: new { @class = "control-label" })
+                    @Html.TextAreaFor(model => model.Observacao, new { style = "width: 800px; height: 200px;", @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Observacao, "", new { @class = "text-danger" })
+                </div>
+            </div>           
+        </div>
+        
+
+
+        <div class="row" style="width:100%">
+            <button id="butao" class="btn-default btn-sm" style="float:Left;" type="button" onclick="mostrarAsoLinha4()">
+                Impressos<span class=" 	fa fa-print" style="float:right;font-size:28px; margin-top:-3px"></span>
+            </button>
+        </div>
+        <div id="asoLinha4" style="margin-top:20px;display:none">
+            <p>@Html.ActionLink("A.S.O", "ImpAso", new { id = Model.Id }, new { @class = "btn btn-sm btn-info", @target = "blank", @style="width:250px;" })</p>
+            <p style="margin-top:-8px">@Html.ActionLink("Ficha Médica", "ImpFichaMedica", new { id = Model.Id }, new { @id = "butaoCinza", @class = "btn btn-sm btn-defaut", @target = "blank", @style = "width:250px;" })</p>
+            <p style="margin-top:-8px">@Html.ActionLink("Audiometria", "ImpAudiometria", new { id = Model.Id }, new { @class = "btn btn-sm btn-success", @target = "blank", @style = "width:250px;" })</p>
+            <p style="margin-top:-8px" >@Html.ActionLink("Recibo", "ImpReciboPag", new { id = Model.Id }, new { @class = "btn btn-sm btn-warning", @target = "blank", @style = "width:250px;" })</p>
+            <p style="margin-top:-8px">@Html.ActionLink("Declaração Comparecimento", "ImpDeclaracaoComp", new { id = Model.Id }, new { @class = "btn btn-sm btn-danger", @target = "blank", @style = "width:250px;" })</p>            
+        </div>
+        <hr />
+        <div class="form-group" style="margin-top:10px">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Salvar" class="btn btn-success btn-sm" id="botaoTop"/>
+                @Html.ActionLink("Voltar", "Index", null, null, new { @class = "btn btn-info btn-sm", @id = "botaoTop" })
+
+            </div>
+        </div>
+
+}
+            
+
+
+<div id="PCliente" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" style="width:70%" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Clientes</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-5">
+                            <div class="input-group">
+                                @Html.TextBox("PClienteFiltro", null, new { @class = "form-control" })
+                                <span class="input-group-btn">
+                                    <input type="button" id="PClienteBuscar" onclick="PClientePesquisa()" value="Localizar" class="btn btn-success" />
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="width:100%; height:400px; overflow-y: scroll">
+                    <table id="PClienteTable" class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th style="width:100px">Controle</th>
+                                <th style="width:400px">Cliente</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="PEncaminhamento" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" style="width:70%" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Cadastro</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-5">
+                            <div class="input-group">
+                                @Html.TextBox("PEncaminhamentoFiltro", null, new { @class = "form-control" })
+                                <span class="input-group-btn">
+                                    <input type="button" id="PEncaminhamentoBuscar" onclick="PEncaminhamentoPesquisa()" value="Localizar" class="btn btn-success" />
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="width:100%; height:400px; overflow-y: scroll">
+                    <table id="PEncaminhamentoTable" class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th style="width:100px">Controle</th>
+                                <th style="width:400px">Cadastro</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="PMedicoExaminador" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" style="width:70%" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Médicos</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-5">
+                            <div class="input-group">
+                                @Html.TextBox("PMedicoExaminadorFiltro", null, new { @class = "form-control" })
+                                <span class="input-group-btn">
+                                    <input type="button" id="PMedicoExaminadorBuscar" onclick="PMedicoExaminadorPesquisa()" value="Localizar" class="btn btn-success" />
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="width:100%; height:400px; overflow-y: scroll">
+                    <table id="PMedicoExaminadorTable" class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th style="width:100px">Controle</th>
+                                <th style="width:400px">Médico</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="PMedico" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" style="width:70%" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Médicos</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-5">
+                            <div class="input-group">
+                                @Html.TextBox("PMedicoFiltro", null, new { @class = "form-control" })
+                                <span class="input-group-btn">
+                                    <input type="button" id="PMedicoBuscar" onclick="PMedicoPesquisa()" value="Localizar" class="btn btn-success" />
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="width:100%; height:400px; overflow-y: scroll">
+                    <table id="PMedicoTable" class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th style="width:100px">Controle</th>
+                                <th style="width:400px">Médico</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="PFuncionario" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" style="width:70%" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Funcionários</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-5">
+                            <div class="input-group">
+                                @Html.TextBox("PFuncionarioFiltro", null, new { @class = "form-control" })
+                                <span class="input-group-btn">
+                                    <input type="button" id="PFuncionarioBuscar" onclick="PFuncionarioPesquisa()" value="Localizar" class="btn btn-success" />
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="width:100%; height:400px; overflow-y: scroll">
+                    <table id="PFuncionarioTable" class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th style="width:100px">Controle</th>
+                                <th style="width:400px">Nome</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="PAgente" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" style="width:70%" role="document">        
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>                    
+                    <h4 class="modal-title">Agentes</h4>                   
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-5">
+                                <div class="input-group">
+                                    @Html.TextBox("PAgenteFiltro", null, new { @class = "form-control" })
+                                    <span class="input-group-btn">
+                                        <input type="button" id="PClienteBuscar" onclick="PAgentePesquisa()" value="Localizar" class="btn btn-success" />
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="width:100%; height:400px; overflow-y: scroll">
+                        <table id="PAgenteTable" class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th style="width:100px">Controle</th>
+                                    <th style="width:400px">Descrição</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        
+    </div>
+</div>
+
+
+<div id="PExame" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" style="width:70%" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Exames</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-5">
+                            <div class="input-group">
+                                @Html.TextBox("PExameFiltro", null, new { @class = "form-control" })
+                                <span class="input-group-btn">
+                                    <input type="button" id="PExameBuscar" onclick="PExamePesquisa()" value="Localizar" class="btn btn-success" />
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="width:100%; height:400px; overflow-y: scroll">
+                    <table id="PExameTable" class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th style="width:100px">Controle</th>
+                                <th style="width:400px">Descrição</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div id="ExameDetal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" style="width:70%" role="document">
+        <form action="/Consultas/AddExame" method="post">
+            @Html.AntiForgeryToken()
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    
+                    <h4 class="modal-title">Exames</h4>                    
+                    <input type="hidden" id="IDdaConsulta2" name="IDdaConsulta2" />
+                    <input type="hidden" id="tpConsultaExame" name="tpConsultaExame" />
+                    <input type="hidden" id="PessoaId12" name="PessoaId12" />
+                    <input type="hidden" id="FuncionarioId12" name="FuncionarioId12" />
+                    <input type="hidden" id="SetorId12" name="SetorId12" />
+                    <input type="hidden" id="FuncaoId12" name="FuncaoId12" />
+                    <input type="hidden" id="DataConsulta12" name="DataConsulta12" />
+                    <input type="hidden" id="DataConclusao12" name="DataConclusao12" />
+                    <input type="hidden" id="ProximaConsulta12" name="ProximaConsulta12" />
+                    <input type="hidden" id="UltimoEmprego12" name="UltimoEmprego12" />
+                    <input type="hidden" id="UltimaFuncaoExercida12" name="UltimaFuncaoExercida12" />
+                    <input type="hidden" id="TempoPermanenciaUltiMoEmprego12" name="TempoPermanenciaUltiMoEmprego12" />
+                    <input type="hidden" id="Peso12" name="Peso12" />
+                    <input type="hidden" id="Altura12" name="Altura12" />
+                    <input type="hidden" id="Temperatura12" name="Temperatura12" />
+                    <input type="hidden" id="PressaoArterial12" name="PressaoArterial12" />
+                    <input type="hidden" id="TempoAposUltimoEmprego12" name="TempoAposUltimoEmprego12" />
+                    <input type="hidden" id="MedicoExaminadorId12" name="MedicoExaminadorId12" />
+                    <input type="hidden" id="EncaMinhamentoEspecialista12" name="EncaMinhamentoEspecialista12" />
+                    <input type="hidden" id="DataEncaminhado12" name="DataEncaminhado12" />
+                    <input type="hidden" id="SituacaoConsulta12" name="SituacaoConsulta12" />
+                    <input type="hidden" id="FormaPagamento12" name="FormaPagamento12" />
+                    <input type="hidden" id="Observacao12" name="Observacao12" />
+                </div>
+                <div class="modal-body">
+                   <div class="container">
+                        <div class="row">
+                            <div class="form-group col-md-4">                                
+                                <input type="hidden" readonly="readonly" id="ExameIdDetal" name="ExameIdDetal" />
+                                @Html.Label("Exame")
+                                <input type="text" id="ExameDescDetal" class="form-control" readonly="readonly" name="ExameDescDetal" /> 
+                            </div>
+                            <div class="form-group col-md-4">
+                                
+                                <input type="hidden" id="MedicoExameId" readonly="readonly" name="MedicoExameId" /> 
+                                @Html.Label("Médico Analista")
+                                <input type="text" id="MedicoExameDesc" class="form-control" readonly="readonly" name="MedicoExameDesc" /> 
+                                <input type="button" value="..." onclick="PMedicoOpen()" class="btn btn-success" />
+                            </div>
+                            <div class="form-group col-md-4">                                
+                                <input type="hidden" id="EncExameID" readonly="readonly" name="EncExameID" />
+                                @Html.Label("Encaminhamento")
+                                <input type="text" id="EncExameDesc" class="form-control" readonly="readonly" name="EncExameDesc" /> 
+                                <input type="button" value="..." onclick="PEncaminhamentoOpen()" class="btn btn-success" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                                @Html.Label("Data Coleta")
+                                <input type="text" id="DataColetaDetal" class="form-control" name="DataColetaDetal" onblur = "ValidaData(this)" onkeypress = "mascaraData( this, event )"  maxlength = "10" placeholder = "DD/MM/AAAA" />
+                            </div>
+                            <div class="form-group col-md-4">
+                                @Html.Label("Data Emissão")
+                                <input type="text" id="DataEmissaoDetal" class="form-control" name="DataEmissaoDetal" onblur = "ValidaData(this)" onkeypress = "mascaraData( this, event )"  maxlength = "10" , placeholder = "DD/MM/AAAA"/>
+                            </div>
+                            <div class="form-group col-md-4">
+                                @Html.Label("Pagamento")
+                                @*<input type="text" id="PagamentoDetal" class="form-control" name="PagamentoDetal" />*@
+                                @Html.DropDownList("PagamentoDetal", null, htmlAttributes: new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                                @Html.Label("Conclusão")
+                                @Html.DropDownList("ConclusaoDetal", null, htmlAttributes: new { @class = "form-control" })
+                                @*<input type="text" id="ConclusaoDetal" class="form-control" name="ConclusaoDetal" />*@
+                            </div>
+                            <div class="form-group col-md-4">
+                                @Html.Label("Proxima Consulta")
+                                <input type="text" id="ProximaConsultaDetal" class="form-control" name="ProximaConsultaDetal" onblur = "ValidaData(this)" onkeypress = "mascaraData( this, event )"  maxlength = "10" placeholder = "DD/MM/AAAA" />
+                            </div>
+                            
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                @Html.Label("Observações")
+                                <input type="text" class="form-control" id="ObservacaoConsultaDetal" name="ObservacaoConsultaDetal" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default">Incluir</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="AgenteDetal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" style="width:40%" role="document">
+        <form action="/Consultas/AddAgente" method="post">
+            @Html.AntiForgeryToken()
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>                    
+                    <h4 class="modal-title">Agentes</h4>
+                    <input type="text" readonly="readonly" id="ConsultaIdAjax" name="ConsultaIdAjax" class="form-control" />
+                    <input type="hidden" id="tpConsultaAgente" name="tpConsultaAgente" />
+                    <input type="text" id="AgenteIdAjax" name="ConsultaIdAjax"  class="form-control"/>
+                    <input type="hidden" id="IDdaConsulta" name="IDdaConsulta" />
+                    <input type="hidden" id="PessoaId1" name="PessoaId1" />
+                    <input type="hidden" id="FuncionarioId1" name="FuncionarioId1" />
+                    <input type="hidden" id="SetorId1" name="SetorId1" />
+                    <input type="hidden" id="FuncaoId1" name="FuncaoId1" />
+                    <input type="hidden" id="DataConsulta1" name="DataConsulta1" />
+                    <input type="hidden" id="DataConclusao1" name="DataConclusao1" />
+                    <input type="hidden" id="ProximaConsulta1" name="ProximaConsulta1" />
+                    <input type="hidden" id="UltimoEmprego1" name="UltimoEmprego1" />
+                    <input type="hidden" id="UltimaFuncaoExercida1" name="UltimaFuncaoExercida1" />
+                    <input type="hidden" id="TempoPermanenciaUltiMoEmprego1" name="TempoPermanenciaUltiMoEmprego1" />
+                    <input type="hidden" id="Peso1" name="Peso1" />
+                    <input type="hidden" id="Altura1" name="Altura1" />
+                    <input type="hidden" id="Temperatura1" name="Temperatura1" />
+                    <input type="hidden" id="PressaoArterial1" name="PressaoArterial1" />
+                    <input type="hidden" id="TempoAposUltimoEmprego1" name="TempoAposUltimoEmprego1" />
+                    <input type="hidden" id="MedicoExaminadorId1" name="MedicoExaminadorId1" />
+                    <input type="hidden" id="EncaMinhamentoEspecialista1" name="EncaMinhamentoEspecialista1" />
+                    <input type="hidden" id="DataEncaminhado1" name="DataEncaminhado1" />
+                    <input type="hidden" id="SituacaoConsulta1" name="SituacaoConsulta1" />
+                    <input type="hidden" id="FormaPagamento1" name="FormaPagamento1" />
+                    <input type="hidden" id="Observacao1" name="Observacao1" />
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default">Incluir</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+        
+
+
+
+
+
+
+<script>
+    function SelecionarCliente(ID, Razao) {
+        $("#PessoaId").val(ID);
+        $("#ClienteDesc").val(Razao);
+        $('#PCliente').modal('toggle');
+    }
+
+    function SelecionarMedico(ID, Razao) {
+
+        $("#MedicoExameId").val(ID);
+        $("#MedicoExameDesc").val(Razao);
+        $('#PMedico').modal('toggle');
+        $('#ExameDetal').modal('show');
+    }
+
+    function SelecionarMedicoExaminador(ID, Razao) {
+
+        $("#MedicoExaminadorId").val(ID);
+        $("#MedicoDesc").val(Razao);
+        $('#PMedicoExaminador').modal('toggle');
+    }
+
+
+    function SelecionarEncaminhamento(ID, Razao) {
+
+        $("#EncExameID").val(ID);
+        $("#EncExameDesc").val(Razao);
+        $('#PEncaminhamento').modal('toggle');
+        $('#ExameDetal').modal('show');
+    }
+
+    function SelecionarExame(ID, Nome) {
+
+
+        $('#PExame').modal('toggle');
+        $('#ExameDetal').modal('show');
+        $("#ExameIdDetal").val(ID);
+        $("#ExameDescDetal").val(Nome);
+        var idDaconsulta = document.getElementById("Id").value;
+        $("#IDdaConsulta2").val(idDaconsulta);
+
+        var tpconsultaEx = document.getElementById("TipoConsulta").value;
+        $("#tpConsultaExame").val(tpconsultaEx);
+
+
+        var pessoaId = document.getElementById("PessoaId").value;
+        $("#PessoaId12").val(pessoaId);
+
+        var funcionarioId = document.getElementById("FuncionarioId").value;
+        $("#FuncionarioId12").val(funcionarioId);
+
+        var setorId = document.getElementById("SetorId").value;
+        $("#SetorId12").val(setorId);
+
+
+        var funcaoId = document.getElementById("FuncaoId").value;
+        $("#FuncaoId12").val(funcaoId);
+
+        var dataConsulta = document.getElementById("DataConsulta").value;
+        $("#DataConsulta12").val(dataConsulta);
+
+        var dataConclusao = document.getElementById("DataConclusao").value;
+        $("#DataConclusao12").val(dataConclusao);
+
+        var proximaConsulta = document.getElementById("ProximaConsulta").value;
+        $("#ProximaConsulta12").val(proximaConsulta);
+
+        var ultimoEmprego = document.getElementById("UltimoEmprego").value;
+        $("#UltimoEmprego12").val(ultimoEmprego);
+
+        var ultimaFuncaoExercida = document.getElementById("UltimaFuncaoExercida").value;
+        $("#UltimaFuncaoExercida12").val(ultimaFuncaoExercida);
+
+        var tempoPermanencia = document.getElementById("TempoPermanenciaUltiMoEmprego").value;
+        $("#TempoPermanenciaUltiMoEmprego12").val(tempoPermanencia);
+
+        var peso = document.getElementById("Peso").value;
+        $("#Peso12").val(peso);
+
+        var altura = document.getElementById("Altura").value;
+        $("#Altura12").val(altura);
+
+        var temperatura = document.getElementById("Temperatura").value;
+        $("#Temperatura12").val(temperatura);
+
+        var pressao = document.getElementById("PressaoArterial").value;
+        $("#PressaoArterial12").val(pressao);
+
+        var tempoAposUltimoEmprego = document.getElementById("TempoAposUltimoEmprego").value;
+        $("#TempoAposUltimoEmprego12").val(tempoAposUltimoEmprego);
+
+        var medicoExaminador = document.getElementById("MedicoExaminadorId").value;
+        $("#MedicoExaminadorId12").val(medicoExaminador);
+
+        var encaminhamentoEspecialista = document.getElementById("EncaMinhamentoEspecialista").value;
+        $("#EncaMinhamentoEspecialista12").val(encaminhamentoEspecialista);
+
+        var dataencaminhado = document.getElementById("DataEncaminhado").value;
+        $("#DataEncaminhado12").val(dataencaminhado);
+
+        var situacaoConsulta = document.getElementById("SituacaoConsulta").value;
+        $("#SituacaoConsulta12").val(situacaoConsulta);
+
+        var formaPgto = document.getElementById("FormaPagamento").value;
+        $("#FormaPagamento12").val(formaPgto);
+
+        var observacao = document.getElementById("Observacao").value;
+        $("#Observacao12").val(observacao);
+    }
+
+
+    function SelecionarFuncionario(ID, Nome) {
+        $("#FuncionarioId").val(ID);
+        $("#funcionarioDesc").val(Nome);
+        $('#PFuncionario').modal('toggle');
+    }
+
+    function SelecionarAgente(Id, agenteId) {
+
+        $('#PAgente').modal('toggle');
+        $('#AgenteDetal').modal("show");
+        $("#ConsultaIdAjax").val(Id);
+        $("#AgenteIdAjax").val(agenteId);
+
+        var idDaconsulta = document.getElementById("Id").value;
+        $("#IDdaConsulta").val(idDaconsulta);
+
+        var tpconsultaAgente = document.getElementById("TipoConsulta").value;
+        $("#tpConsultaAgente").val(tpconsultaAgente);
+
+
+        var pessoaId = document.getElementById("PessoaId").value;
+        $("#PessoaId1").val(pessoaId);
+
+        var funcionarioId = document.getElementById("FuncionarioId").value;
+        $("#FuncionarioId1").val(funcionarioId);
+
+        var setorId = document.getElementById("SetorId").value;
+        $("#SetorId1").val(setorId);
+
+
+        var funcaoId = document.getElementById("FuncaoId").value;
+        $("#FuncaoId1").val(funcaoId);
+
+        var dataConsulta = document.getElementById("DataConsulta").value;
+        $("#DataConsulta1").val(dataConsulta);
+
+        var dataConclusao = document.getElementById("DataConclusao").value;
+        $("#DataConclusao1").val(dataConclusao);
+
+        var proximaConsulta = document.getElementById("ProximaConsulta").value;
+        $("#ProximaConsulta1").val(proximaConsulta);
+
+        var ultimoEmprego = document.getElementById("UltimoEmprego").value;
+        $("#UltimoEmprego1").val(ultimoEmprego);
+
+        var ultimaFuncaoExercida = document.getElementById("UltimaFuncaoExercida").value;
+        $("#UltimaFuncaoExercida1").val(ultimaFuncaoExercida);
+
+        var tempoPermanencia = document.getElementById("TempoPermanenciaUltiMoEmprego").value;
+        $("#TempoPermanenciaUltiMoEmprego1").val(tempoPermanencia);
+
+        var peso = document.getElementById("Peso").value;
+        $("#Peso1").val(peso);
+
+        var altura = document.getElementById("Altura").value;
+        $("#Altura1").val(altura);
+
+        var temperatura = document.getElementById("Temperatura").value;
+        $("#Temperatura1").val(temperatura);
+
+        var pressao = document.getElementById("PressaoArterial").value;
+        $("#PressaoArterial1").val(pressao);
+
+        var tempoAposUltimoEmprego = document.getElementById("TempoAposUltimoEmprego").value;
+        $("#TempoAposUltimoEmprego1").val(tempoAposUltimoEmprego);
+
+        var medicoExaminador = document.getElementById("MedicoExaminadorId").value;
+        $("#MedicoExaminadorId1").val(medicoExaminador);
+
+        var encaminhamentoEspecialista = document.getElementById("EncaMinhamentoEspecialista").value;
+        $("#EncaMinhamentoEspecialista1").val(encaminhamentoEspecialista);
+
+        var dataencaminhado = document.getElementById("DataEncaminhado").value;
+        $("#DataEncaminhado1").val(dataencaminhado);
+
+        var situacaoConsulta = document.getElementById("SituacaoConsulta").value;
+        $("#SituacaoConsulta1").val(situacaoConsulta);
+
+        var formaPgto = document.getElementById("FormaPagamento").value;
+        $("#FormaPagamento1").val(formaPgto);
+
+        var observacao = document.getElementById("Observacao").value;
+        $("#Observacao1").val(observacao);
+
+
+    }
+    function PFuncionarioOpen() {
+        $("#PFuncionario").modal("show");
+    }
+
+    function PMedicoOpen() {
+        $("#ExameDetal").modal("toggle");
+        $("#PMedico").modal("show");
+    }
+
+    function PMedicoExaminadorOpen() {
+        $("#PMedicoExaminador").modal("show");
+    }
+
+    function PEncaminhamentoOpen() {
+        $("#ExameDetal").modal("toggle");
+        $("#PEncaminhamento").modal("show");
+    }
+
+
+    function PClienteOpen() {
+        $("#PCliente").modal("show");
+    }
+
+    function PExameOpen() {
+        $("#PExame").modal("show");
+    }
+
+    function PAgenteOpen() {
+        $("#PAgente").modal("show");
+    }
+
+    $("#PClienteBuscar").click(function () {
+
+        PesquisaCliente();
+    });
+
+    $("#PAgenteBuscar").click(function () {
+        PesquisaAgente();
+    });
+
+    function PFuncionarioPesquisa() {
+        PesquisaFuncionario();
+    }
+
+    function PMedicoPesquisa() {
+        PesquisaMedico();
+    }
+
+    function PMedicoExaminadorPesquisa() {
+        PesquisaMedicoExaminador();
+    }
+
+    function PClientePesquisa() {
+        PesquisaCliente();
+    }
+
+    function PEncaminhamentoPesquisa() {
+        PesquisaEncaminhamento();
+    }
+
+    function PAgentePesquisa() {
+        PesquisaAgente();
+    }
+
+    function PExamePesquisa() {
+        PesquisaExame();
+    }
+
+    function PesquisaExame() {
+
+        var PExameTable = $("#PExameTable").DataTable();
+
+        PExameTable.clear();
+
+        var url = "@Url.Action("PesquisaExame","Pesquisa",null)?&filtro=" + $("#PExameFiltro").val();
+
+        $.getJSON(url, function (data) {
+
+                        $.each(data, function (index, item) {
+                            var botao = item["ID"] + ',"' + item["Nome"] + '"';
+                        botao = "<input type='button' value='Selecionar' onclick='SelecionarExame(" + botao + ")' class='btn btn-xs btn-success' />";
+
+                        PExameTable.row.add([item["ID"],
+                            item["Nome"],
+                                               botao]).draw(false);
+
+                    });
+                }
+            );
+    }
+
+
+    function PesquisaCliente() {
+
+        var PClienteTable = $("#PClienteTable").DataTable();
+
+        PClienteTable.clear();
+
+        var url = "@Url.Action("PesquisaCliente","Pesquisa",null)?&filtro=" + $("#PClienteFiltro").val();
+
+        $.getJSON(url, function (data) {
+
+                        $.each(data, function (index, item) {
+                        var botao = item["ID"] + ',"' + item["Razao"] + '"';
+                        botao = "<input type='button' value='Selecionar' onclick='SelecionarCliente(" + botao + ")' class='btn btn-xs btn-success' />";
+
+                        PClienteTable.row.add([item["ID"],
+                                               item["Razao"],
+                                               botao]).draw(false);
+
+                    });
+                }
+            );
+    }
+
+    function PesquisaEncaminhamento() {
+
+        var PEncaminhamentoTable = $("#PEncaminhamentoTable").DataTable();
+
+        PEncaminhamentoTable.clear();
+
+        var url = "@Url.Action("PesquisaCliente","Pesquisa",null)?&filtro=" + $("#PEncaminhamentoFiltro").val();
+
+        $.getJSON(url, function (data) {
+
+                        $.each(data, function (index, item) {
+                        var botao = item["ID"] + ',"' + item["Razao"] + '"';
+                        botao = "<input type='button' value='Selecionar' onclick='SelecionarEncaminhamento(" + botao + ")' class='btn btn-xs btn-success' />";
+
+                        PEncaminhamentoTable.row.add([item["ID"],
+                                               item["Razao"],
+                                               botao]).draw(false);
+
+                    });
+                }
+            );
+    }
+
+    function PesquisaMedico() {
+
+        var PMedicoTable = $("#PMedicoTable").DataTable();
+
+        PMedicoTable.clear();
+
+        var url = "@Url.Action("PesquisaMedico","Pesquisa",null)?&filtro=" + $("#PMedicoFiltro").val();
+
+        $.getJSON(url, function (data) {
+
+            $.each(data, function (index, item) {
+                var botao = item["ID"] + ',"' + item["Razao"] + '"';
+                botao = "<input type='button' value='Selecionar' onclick='SelecionarMedico(" + botao + ")' class='btn btn-xs btn-success' />";
+                PMedicoTable.row.add([item["ID"], item["Razao"], botao]).draw(false);
+
+                    });
+                }
+            );
+    }
+
+    function PesquisaMedicoExaminador() {
+        
+        var PMedicoExaminadorTable = $("#PMedicoExaminadorTable").DataTable();
+
+        PMedicoExaminadorTable.clear();
+
+        var url = "@Url.Action("PesquisaMedico","Pesquisa",null)?&filtro=" + $("#PMedicoExaminadorFiltro").val();
+
+        $.getJSON(url, function (data) {
+
+            $.each(data, function (index, item) {
+                var botao = item["ID"] + ',"' + item["Razao"] + '"';
+                botao = "<input type='button' value='Selecionar' onclick='SelecionarMedicoExaminador(" + botao + ")' class='btn btn-xs btn-success' />";
+                PMedicoExaminadorTable.row.add([item["ID"], item["Razao"], botao]).draw(false);
+
+                    });
+                }
+            );
+    }
+
+     function PesquisaAgente() {
+            var PAgenteTable = $("#PAgenteTable").DataTable();
+            PAgenteTable.clear();
+            var url = "@Url.Action("PesquisaAgente","Pesquisa",null)?&filtro=" + $("#PAgenteFiltro").val();
+            $.getJSON(url, function (data) {
+
+                        $.each(data, function (index, item) {
+                            var botao = item["Id"] + ',"' + item["Descricao"] + '"';
+                            botao = "<input type='button' value='Selecionar' onclick='SelecionarAgente(" + botao + ")' class='btn btn-xs btn-success' />";
+                        PAgenteTable.row.add([item["Id"],
+                            item["Descricao"],
+                                               botao]).draw(false);
+
+                    });
+                }
+            );
+    }
+    function PesquisaFuncionario() {
+            var PFuncionarioTable = $("#PFuncionarioTable").DataTable();
+            PFuncionarioTable.clear();
+            var url = "@Url.Action("PesquisaFuncionario","Pesquisa",null)?&filtro=" + $("#PFuncionarioFiltro").val();
+            $.getJSON(url, function (data) {
+
+                        $.each(data, function (index, item) {
+                            var botao = item["ID"] + ',"' + item["Nome"] + '"';
+                            botao = "<input type='button' value='Selecionar' onclick='SelecionarFuncionario(" + botao + ")' class='btn btn-xs btn-success' />";
+                        PFuncionarioTable.row.add([item["ID"],
+                            item["Nome"],
+                                               botao]).draw(false);
+
+                    });
+                }
+            );
+        }
+
+    function mostrarAsoLinha1() {
+        var x = document.getElementById("asoLinha1");
+        if (x.style.display === "none") {
+            //var y = document.getElementById("asoLinha1");
+            var z = document.getElementById("asoLinha2");
+            var w = document.getElementById("asoLinha3");
+            var a = document.getElementById("asoLinha4");
+            var b = document.getElementById("divAsoExames");
+            var c = document.getElementById("divAsoAgentes");
+            x.style.display = "block";
+            //y.style.display = "none";
+            z.style.display = "none";
+            w.style.display = "none";
+            a.style.display = "none";
+            b.style.display = "none";
+            c.style.display = "none";
+        } else {
+            x.style.display = "none";
+        }
+    }
+
+    function mostrarAsoLinha2() {
+        var x = document.getElementById("asoLinha2");
+        if (x.style.display === "none") {
+            var y = document.getElementById("asoLinha1");
+            //var z = document.getElementById("asoLinha2");
+            var w = document.getElementById("asoLinha3");
+            var a = document.getElementById("asoLinha4");
+            var b = document.getElementById("divAsoExames");
+            var c = document.getElementById("divAsoAgentes");
+            x.style.display = "block";
+            y.style.display = "none";
+            //z.style.display = "none";
+            w.style.display = "none";
+            a.style.display = "none";
+            b.style.display = "none";
+            c.style.display = "none";
+
+        } else {
+            x.style.display = "none";
+        }
+    }
+    function mostrarAsoLinha3() {
+        var x = document.getElementById("asoLinha3");
+        if (x.style.display === "none") {
+            var y = document.getElementById("asoLinha1");
+            var z = document.getElementById("asoLinha2");
+            //var w = document.getElementById("asoLinha3");
+            var a = document.getElementById("asoLinha4");
+            var b = document.getElementById("divAsoExames");
+            var c = document.getElementById("divAsoAgentes");
+            x.style.display = "block";
+            y.style.display = "none";
+            z.style.display = "none";
+            //w.style.display = "none";
+            a.style.display = "none";
+            b.style.display = "none";
+            c.style.display = "none";
+
+        } else {
+            x.style.display = "none";
+        }
+    }
+
+    function mostrarAsoLinha4() {
+        var x = document.getElementById("asoLinha4");
+        if (x.style.display === "none") {
+            var y = document.getElementById("asoLinha1");
+            var z = document.getElementById("asoLinha2");
+            var w = document.getElementById("asoLinha3");
+            //var a = document.getElementById("asoLinha4");
+            var b = document.getElementById("divAsoExames");
+            var c = document.getElementById("divAsoAgentes");
+            x.style.display = "block";
+            y.style.display = "none";
+            z.style.display = "none";
+            w.style.display = "none";
+            a.style.display = "none";
+            b.style.display = "none";
+            c.style.display = "none";
+        } else {
+            x.style.display = "none";
+        }
+    }
+
+    function mostrarAsoExames() {
+        var x = document.getElementById("divAsoExames");
+        if (x.style.display === "none") {
+            var y = document.getElementById("asoLinha1");
+            var z = document.getElementById("asoLinha2");
+            var w = document.getElementById("asoLinha3");
+            var a = document.getElementById("asoLinha4");
+            //var b = document.getElementById("divAsoExames");
+            var c = document.getElementById("divAsoAgentes");
+            x.style.display = "block";
+            y.style.display = "none";
+            z.style.display = "none";
+            w.style.display = "none";
+            a.style.display = "none";
+            //b.style.display = "none";
+            c.style.display = "none";
+        } else {
+            x.style.display = "none";
+        }
+    }
+    function mostrarAsoAgentes() {
+        var x = document.getElementById("divAsoAgentes");
+        if (x.style.display === "none") {
+            var y = document.getElementById("asoLinha1");
+            var z = document.getElementById("asoLinha2");
+            var w = document.getElementById("asoLinha3");
+            var a = document.getElementById("asoLinha4");
+            var b = document.getElementById("divAsoExames");
+            //var c = document.getElementById("divAsoAgentes");
+            x.style.display = "block";
+            y.style.display = "none";
+            z.style.display = "none";
+            w.style.display = "none";
+            a.style.display = "none";
+            b.style.display = "none";
+            //c.style.display = "none";
+
+        } else {
+            x.style.display = "none";
+        }
+    }
+
+
+    $(document).ready(function () {
+
+        var PAgenteTable = $("#PAgenteTable").dataTable({
+            "paging": false,
+            "ordering": false,
+            "info": false,
+            "searching": false,
+            "language": {
+                "emptyTable": "&nbsp"
+            }
+        }).DataTable();
+    });
+
+    $(document).ready(function () {
+
+        var PClienteTable = $("#PClienteTable").dataTable({
+            "paging": false,
+            "ordering": false,
+            "info": false,
+            "searching": false,
+            "language": {
+                "emptyTable": "&nbsp"
+            }
+        }).DataTable();
+    });
+
+    $(document).ready(function () {
+
+        var PMedicoTable = $("#PMedicoTable").dataTable({
+            "paging": false,
+            "ordering": false,
+            "info": false,
+            "searching": false,
+            "language": {
+                "emptyTable": "&nbsp"
+            }
+        }).DataTable();
+    });
+
+    $(document).ready(function () {
+
+        var PMedicoTable = $("#PMedicoExaminadorTable").dataTable({
+            "paging": false,
+            "ordering": false,
+            "info": false,
+            "searching": false,
+            "language": {
+                "emptyTable": "&nbsp"
+            }
+        }).DataTable();
+    });
+
+    $(document).ready(function () {
+
+        var PFuncionarioTable = $("#PFuncionarioTable").dataTable({
+            "paging": false,
+            "ordering": false,
+            "info": false,
+            "searching": false,
+            "language": {
+                "emptyTable": "&nbsp"
+            }
+        }).DataTable();
+    });
+
+    $(document).ready(function () {
+
+        var PExameTable = $("#PExameTable").dataTable({
+            "paging": false,
+            "ordering": false,
+            "info": false,
+            "searching": false,
+            "language": {
+                "emptyTable": "&nbsp"
+
+            }
+        }).DataTable();
+    });
+
+</script>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+}

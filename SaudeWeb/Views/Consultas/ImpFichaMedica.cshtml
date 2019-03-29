@@ -1,0 +1,170 @@
+﻿@model SaudeWeb.Models.Consulta
+@{
+    ViewBag.Title = "ImpFichaMedica";
+    Layout = "~/Views/Shared/RepView.cshtml";
+}
+@if(Model != null)
+{
+<div id="cabecalho">
+    <div id="divLogo">
+        <img id="imgLogo" src="~/Imagens/Logo/@ViewBag.Logo" />
+    </div>
+    <div id="cabecalhoDescricao">
+        <h5>@ViewBag.Razao</h5>
+        <h6 style="margin-top:-5px">@ViewBag.filialEndereco, @ViewBag.filialCidade</h6>
+        <h6 style="margin-top:-5px">@ViewBag.Email</h6>
+        <h3>FICHA MÉDICA</h3>
+        <h6 style="float:right;margin-top:-10px">@ViewBag.Data</h6>
+    </div>
+    <div id="fichaEmpresaFuncionario">
+        <p style="margin-left:3px;margin-top:3px">
+            <strong>EMPRESA:&nbsp;&nbsp;</strong>@Model.ClienteDesc
+        </p>
+        <p style="margin-left:3px;margin-top:-10px">
+            <strong>FUNCIONÁRIO:&nbsp;&nbsp;</strong>@ViewBag.Funcionario
+        </p>
+    </div>
+    <div id="fichaLinhaPadrao">
+        <p id="paragrafoPadraFicha">
+            OBSERVOU PRESENÇA DE SANGUE NA URINA, FEZES OU ESCARRO? <span style="float:right;margin-right:10px">SIM( ) NÃO( ) QUAIS?</span>
+        </p>
+    </div>
+    <div id="fichaLinhaPadrao">
+        <p id="paragrafoPadraFicha">
+            TEM OU JÁ TEVE ALGUM TIPO DE ALERGIA?<span style="float:right;margin-right:10px">SIM( ) NÃO( ) QUAIS?</span>
+        </p>
+    </div>
+    <div id="fichaLinhaPadrao">
+        <p id="paragrafoPadraFicha">
+            VOCÊ ESTÁ FAZENDO ALGUM TRATAMENTO MÉDICO ATUALMENTE? <span style="float:right;margin-right:10px">SIM( ) NÃO( ) QUAIS?</span>
+        </p>
+    </div>
+    <div id="fichaLinhaPadrao">
+        <p id="paragrafoPadraFicha">
+            TEM OU TEVE ALGUMA DOENÇA NO CORAÇÃO<span style="float:right;margin-right:10px">SIM( ) NÃO( ) QUAIS?</span>
+        </p>
+    </div>
+    <div id="fichaLinhaPadrao">
+        <p id="paragrafoPadraFicha">
+            TEM OU TEVE ALGUMA DOENÇA PULMONAR? <span style="float:right;margin-right:10px">SIM( ) NÃO( ) QUAIS?</span>
+        </p>
+    </div>
+    <div id="fichaLinhaPadrao">
+        <p id="paragrafoPadraFicha">
+            JÁ TEVE ALGUM CASO DE MORTE SÚBITA NA FAMÍLIA?<span style="float:right;margin-right:10px">SIM( ) NÃO( )</span>
+        </p>
+    </div>
+    <div id="fichaLinhaPadrao">
+        <p id="paragrafoPadraFicha">
+            JÁ TEVE CONVULSÃO,"ACESSO", DESMAIO OU COMA?<span style="float:right;margin-right:10px">SIM( ) NÃO( )</span>
+        </p>
+    </div>
+    <div id="fichaLinhaPadrao">
+        <p id="paragrafoPadraFicha">
+            SOFREU ALGUM ACIDENTE NOS ÚLTIMOS MESES?<span style="float:right;margin-right:10px">SIM( ) NÃO( )</span>
+        </p>
+    </div>
+    <div id="fichaLinhaPadrao">
+        <p id="paragrafoPadraFicha">
+            VOCÊ TEM VARIZES?<span style="float:right;margin-right:10px">SIM( ) NÃO( )</span>
+        </p>
+    </div>
+    <div id="fichaLinhaPadrao">
+        <p id="paragrafoPadraFicha">
+            TEM DIABETES?<span style="float:right;margin-right:10px">SIM( ) NÃO( )</span>
+        </p>
+    </div>
+    <div id="fichaLinhaPadrao">
+        <p id="paragrafoPadraFicha">
+            TEM ALGUMA DOENÇA NA TIREOIDE?<span style="float:right;margin-right:10px">SIM( ) NÃO( )</span>
+        </p>
+    </div>
+    <div id="fichaLinhaPadrao">
+        <p id="paragrafoPadraFicha">
+            USA ANTICONCEPCIONAL?(MULHERES)<span style="float:right;margin-right:10px">SIM( ) NÃO( )</span>
+        </p>
+    </div>
+    <div id="fichaLinhaPadrao">
+        <p id="paragrafoPadraFicha">
+            ESTÁ GRÁVIDA?(MULHERES)<span style="float:right;margin-right:10px">SIM( ) NÃO( )</span>
+        </p>
+    </div>
+    <div id="fichaLinhaPadrao">
+        <p id="paragrafoPadraFicha">
+            COSTUMA TER GRIPE?<span style="float:right;margin-right:10px">NÃO( )RARAMENTE( )COM FREQUÊNCIA( )</span>
+        </p>
+    </div>
+    <div id="fichaLinhaPadrao">
+        <p id="paragrafoPadraFicha">
+            COSTUMA PRATICAR ATIVIDADES FÍSICAS / ESPORTIVAS?<span style="float:right;margin-right:10px">NÃO( )RARAMENTE( )COM FREQUÊNCIA( )</span>
+        </p>
+    </div>
+    <div id="fichaLinhaPadrao">
+        <p id="paragrafoPadraFicha">
+            COSTUMA TER PALPITAÇÕES(BATEDEIRA NO PEITO)?<span style="float:right;margin-right:10px">NÃO( )RARAMENTE( )COM FREQUÊNCIA( )</span>
+        </p>
+    </div>
+    <div id="fichaLinhaPadrao">
+        <p id="paragrafoPadraFicha">
+            COSTUMA SENTIR DOR NO PEITO QUE PIORA DURANTE O ESFORÇO FÍSICO?<span style="float:right;margin-right:10px">NÃO( )RARAMENTE( )COM FREQUÊNCIA( )</span>
+        </p>
+    </div>
+    <div id="fichaLinhaPadrao">
+        <p id="paragrafoPadraFicha">
+            COSTUMA OUVIR ALGUM ZUMBIDO(BARULHO, CHIADO)?<span style="float:right;margin-right:10px">NÃO( )RARAMENTE( )COM FREQUÊNCIA( )</span>
+        </p>
+    </div>
+    <div id="fichaLinhaPadrao">
+        <p id="paragrafoPadraFicha">
+            COSTUMA SERTIR DOR DE OUVIDO?<span style="float:right;margin-right:10px">NÃO( )RARAMENTE( )COM FREQUÊNCIA( )</span>
+        </p>
+    </div>
+    <div id="fichaLinhaPadrao">
+        <p id="paragrafoPadraFicha">
+            COSTUMA SENTIR DOR DE CABEÇA?<span style="float:right;margin-right:10px">NÃO( )RARAMENTE( )COM FREQUÊNCIA( )</span>
+        </p>
+    </div>
+    <div id="fichaLinhaPadrao">
+        <p id="paragrafoPadraFicha">
+            COSTUMA SENTIR DORES NO ESTOMAGO?<span style="float:right;margin-right:10px">NÃO( )RARAMENTE( )COM FREQUÊNCIA( )</span>
+        </p>
+    </div>
+    <div id="fichaLinhaPadrao">
+        <p id="paragrafoPadraFicha">
+            COSTUMA APRESENTAR DIARRÉIA?<span style="float:right;margin-right:10px">NÃO( )RARAMENTE( )COM FREQUÊNCIA( )</span>
+        </p>
+    </div>
+    <div id="fichaLinhaPadrao">
+        <p id="paragrafoPadraFicha">
+            COSTUMA SENTIR DORES NAS COSTAS(COLUNA)?<span style="float:right;margin-right:10px">NÃO( )RARAMENTE( )COM FREQUÊNCIA( )</span>
+        </p>
+    </div>
+    <div id="fichaLinhaPadrao">
+        <p id="paragrafoPadraFicha">
+            COSTUMA SENTIR DORES NOS BRAÇOS?<span style="float:right;margin-right:10px">NÃO( )RARAMENTE( )COM FREQUÊNCIA( )</span>
+        </p>
+    </div>
+    <div id="fichaLinhaObs">
+        <p id="paragrafoPadraFicha">
+            VOCÊ GOSTARIA DE MENCIONAR ALGUMA INFORMAÇÃO SOBRE SUA SAÚDE?
+        </p>
+    </div>
+    <div id="fichaLinhaRodape">
+        <p style="margin-left:10px;margin-top:5px">
+            DECLARO QUE AS INFORMAÇÕES FORNECIDAS SÃO VERDADEIRAS.
+        </p> 
+        <p style="margin-left:10px;margin-top:20px">
+            <strong>@ViewBag.Cidade</strong>, @ViewBag.Data <span style="float:right;margin-right:10px">_______________________________________________________________________________</span>
+        </p>
+        <p style="margin-left:550px;margin-top:-8px">@ViewBag.Funcionario</p>
+    </div>
+</div>
+
+}
+else
+{
+    <div>
+        <p style="font-size:30px; margin-left:20px;color: red">Questionário Inexistente</p>
+        <p><a style="margin-left:20px;" class="btn btn-danger btn-sm" onclick="window.history.back()">Voltar</a></p>
+    </div>
+}

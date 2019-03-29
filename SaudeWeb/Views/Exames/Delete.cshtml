@@ -1,0 +1,54 @@
+﻿@model SaudeWeb.Models.Exame
+
+@{
+    ViewBag.Title = "Exames";
+}
+
+<h2>Cadastro</h2>
+
+@if (ViewBag.erro == null)
+{
+    <h3>Deseja excluir esse registro?</h3>
+}
+else
+{
+    <h3 style="color:red">@ViewBag.erro</h3>
+}
+<div>
+    <h4>Exames</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ValorExame)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ValorExame)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            @if (ViewBag.PodeExcluir)
+            {
+                <input type="submit" value="Excluir" class="btn btn-danger btn-sm" id="botaoTop"/>
+            }
+            else
+            {
+                <input type="submit" value="Excluir" class="btn btn-danger btn-sm" disabled id="botaoTop"/>
+            }
+            @Html.ActionLink("Voltar", "Index", null, null, new { @class = "btn btn-info btn-sm" , @id = "botaoTop" })
+        </div>
+    }
+</div>

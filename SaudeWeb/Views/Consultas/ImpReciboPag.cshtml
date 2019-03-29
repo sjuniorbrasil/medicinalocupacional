@@ -1,0 +1,207 @@
+﻿@{
+    Layout = null;
+}
+@model SaudeWeb.Models.Consulta
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicina Ocupacional - @ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <style>
+       
+    </style>
+    <script type='text/javascript'>
+
+        function imprimirRecibo() {
+            var op = $("#imprimir").val();
+            if (op == "imprimir") {
+                document.getElementById("imprimir").style.visibility = "hidden";
+                document.getElementById("voltar").style.visibility = "hidden";
+                window.print();
+                document.getElementById("imprimir").style.visibility = "visible";
+                document.getElementById("voltar").style.visibility = "visible";
+            }
+        }
+
+    </script>
+</head>
+<body>
+    @if(Model != null)
+    {
+    <div style="width:905px">
+        <div id="recibo">
+            <div id="divLogo">
+                <img id="imgLogo" src="~/Imagens/Logo/@ViewBag.Logo" />
+            </div>
+            <div id="cabecalhoDescricao">
+                <h5>@ViewBag.filialRazao</h5>                
+                <h2 >RECIBO</h2>
+            </div>
+            <div id="idRecibo">
+                <p style="margin-left:3px;margin-top:4px">
+                  Controle:  @ViewBag.Controle
+                </p>
+            </div>
+            <div id="vlRecibo">
+                <p style="margin-left:3px;margin-top:4px">
+                    R$ <span style="margin-left:100px">@ViewBag.valor</span>
+                </p>
+            </div>
+            <div id="descRecibo">
+                <p>
+                    RECEBI(EMOS) DE: @ViewBag.Cliente
+                </p>
+                <p>
+                    ENDEREÇO: @ViewBag.ClienteEndereco
+                </p>
+                <p>
+                    A IMPORTÂNCIA DE:
+                </p>                
+                <div id="vlReciboExtenso">
+                    <p style="margin-left:3px;margin-top:4px">
+                        @ViewBag.vlExtenso
+                    </p>
+                </div>
+                <p>
+                    REFERENTE A:
+                </p>
+                <div id="descReciboExames">
+                    <p style="margin-left:3px;margin-top:4px">
+                        @ViewBag.descExames
+                    </p>
+                </div>
+            </div>
+            <div id="emitenteRecibo">
+                <p style="margin-left:3px;margin-top:4px;font-size:10px">
+                    NOME E ENDEREÇO DO EMITENTE
+                </p>
+                <p style="margin-left:3px;margin-top:4px">
+                    @ViewBag.filialRazao
+                </p>
+                <p style="margin-left:3px;margin-top:4px">
+                    @ViewBag.filialEndereco
+                </p>
+                <p style="margin-left:3px;margin-top:4px">
+                    @ViewBag.filialCidade
+                </p>
+            </div>
+            <div id="assinaturaRecibo">
+                <p style="margin-left:3px;margin-top:4px">
+                   @ViewBag.DataExtenso
+                </p>               
+                <p style="margin-left:10px;margin-top:60px">
+                    ---------------------------------------------------------------------------------
+                </p>
+                <p style="margin-left:160px;margin-top:-10px">
+                    Assinatura
+                </p>
+            </div>
+        </div> 
+        
+        <p style="margin-left:10px; margin-bottom:60px; margin-top:30px">
+            -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        </p>
+        <div id="recibo">
+            <div id="divLogo">
+                <img id="imgLogo" src="~/Imagens/Logo/@ViewBag.Logo" />
+            </div>
+            <div id="cabecalhoDescricao">
+                <h5>@ViewBag.filialRazao</h5>
+                <h2>RECIBO</h2>
+            </div>
+            <div id="idRecibo">
+                <p style="margin-left:3px;margin-top:4px">
+                    Controle:  @ViewBag.Controle
+                </p>
+            </div>
+            <div id="vlRecibo">
+                <p style="margin-left:3px;margin-top:4px">
+                    R$ <span style="margin-left:100px">@ViewBag.valor</span>
+                </p>
+            </div>
+            <div id="descRecibo">
+                <p>
+                    RECEBI(EMOS) DE: @ViewBag.Cliente
+                </p>
+                <p>
+                    ENDEREÇO: @ViewBag.ClienteEndereco
+                </p>
+                <p>
+                    A IMPORTÂNCIA DE:
+                </p>
+                <div id="vlReciboExtenso">
+                    <p style="margin-left:3px;margin-top:4px">
+                        @ViewBag.vlExtenso
+                    </p>
+                </div>
+                <p>
+                    REFERENTE A:
+                </p>
+                <div id="descReciboExames">
+                    <p style="margin-left:3px;margin-top:4px">
+                        @ViewBag.descExames
+                    </p>
+                </div>
+            </div>
+            <div id="emitenteRecibo">
+                <p style="margin-left:3px;margin-top:4px;font-size:10px">
+                    NOME E ENDEREÇO DO EMITENTE
+                </p>
+                <p style="margin-left:3px;margin-top:4px">
+                    @ViewBag.filialRazao
+                </p>
+                <p style="margin-left:3px;margin-top:4px">
+                    @ViewBag.filialEndereco
+                </p>
+                <p style="margin-left:3px;margin-top:4px">
+                    @ViewBag.filialCidade
+                </p>
+            </div>
+            <div id="assinaturaRecibo">
+                <p style="margin-left:3px;margin-top:4px">
+                    @ViewBag.DataExtenso
+                </p>
+                <p style="margin-left:10px;margin-top:60px">
+                    ---------------------------------------------------------------------------------
+                </p>
+                <p style="margin-left:160px;margin-top:-10px">
+                    Assinatura
+                </p>
+            </div>
+        </div> 
+       
+
+   
+        <hr />
+        <div style="margin-left:750px">
+            <button type="button" onClick="history.back()" id="voltar" class="btn btn-default btn-sm">
+                Voltar
+            </button>
+            <button type="button" onClick="imprimirRecibo()" id="imprimir" value="imprimir" class="btn btn-default btn-sm">
+                <span class="glyphicon glyphicon-print"></span> Imprimir
+            </button>
+        </div>
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Heavy Users Sistemas</p>
+        </footer>
+    </div>
+    }
+    else
+    {
+        <div>
+            <p style="font-size:30px; margin-left:20px;color: red">Recibo Inexistente</p>
+            <p><a style="margin-left:20px;" class="btn btn-danger btn-sm" onclick="window.history.back()">Voltar</a></p>
+        </div>
+    }
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <link href="~/Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="~/Scripts/DataTables/jquery.dataTables.js" type="text/javascript"></script>
+
+</body>
+</html>
+

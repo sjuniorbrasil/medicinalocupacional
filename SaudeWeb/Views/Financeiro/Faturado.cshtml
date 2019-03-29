@@ -1,0 +1,137 @@
+﻿@model IEnumerable<SaudeWeb.Models.FaturaViewModel>
+
+@{
+    ViewBag.Title = "Faturamento";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicina Ocupacional - @ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <style>
+    </style>
+    <script type='text/javascript'>
+
+        function imprimirRecibo() {
+            var op = $("#imprimir").val();
+            if (op == "imprimir") {
+                document.getElementById("imprimir").style.visibility = "hidden";
+                document.getElementById("voltar").style.visibility = "hidden";
+                window.print();
+                document.getElementById("imprimir").style.visibility = "visible";
+                document.getElementById("voltar").style.visibility = "visible";
+            }
+        }
+
+    </script>
+</head>
+<body>
+    @if (Model != null)
+    {
+        using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <h2 style="margin-top:-50px">Faturamento</h2>
+            <h4>Cliente: @ViewBag.Cliente</h4>
+            <h4>Vencimento: @ViewBag.Vencimento</h4>
+
+            <table class="table" style="width:905px">
+                <tr>
+                    <th style="width:800px">
+                        @Html.DisplayNameFor(model => model.FuncionarioDesc)
+                    </th>
+                    <th style="width:30px">
+                        @Html.DisplayNameFor(model => model.ValorFaturar)
+                    </th>
+                    <th style="width:80px">
+                        @Html.DisplayName("Consulta")
+                    </th>
+
+                </tr>
+                <tr>
+
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FuncionarioDesc)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ValorFaturar)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Data)
+                        </td>                        
+                    </tr>
+                    
+                    <tr >                                                 
+                        <td  >
+                            <table style="width:100%">
+                                <tr >
+                                    <th style="width:70%">
+                                        @Html.DisplayName("Exame")
+                                    </th>
+                                    <th style="width:15%">
+                                        @Html.DisplayName("Data")
+                                    </th>
+                                    <th style="width:15%">
+                                        @Html.DisplayName("Valor")
+                                    </th>
+
+                                </tr>
+                                @foreach (var detalhe in item.Exames)
+                                {
+                                    <tr style="height:1px">
+                                        <td style="height:1px;font-size:9px;margin-top:-8px;padding:0">@Html.DisplayFor(modelItem => detalhe.Descricao)</td>
+                                        <td style="height:1px;font-size:9px;margin-top:-8px;padding:0">@Html.DisplayFor(modelItem => detalhe.DataExame)</td>
+                                        <td style="height:1px;font-size:9px;margin-top:-8px;padding:0">@Html.DisplayFor(modelItem => detalhe.Valor)</td>
+                                    </tr>
+                                 }
+                            </table>
+                        </td>                  
+                    </tr>
+                }
+
+            </table>
+
+            <div class="row" style="margin-left:20px">
+                <label>Valor Total</label>
+                <p>@ViewBag.Valor</p>
+            </div>
+
+
+            <hr />
+            <div style="margin-left:750px">
+                <button type="button" onClick="history.back()" id="voltar" class="btn btn-default btn-sm">
+                    Voltar
+                </button>
+                <button type="button" onClick="imprimirRecibo()" id="imprimir" value="imprimir" class="btn btn-default btn-sm">
+                    <span class="glyphicon glyphicon-print"></span> Imprimir
+                </button>
+            </div>
+            <footer>
+                <p>&copy; @DateTime.Now.Year - Heavy Users Sistemas</p>
+            </footer>
+        }
+    }
+    else
+    {
+        <div>
+            <p style="font-size:30px; margin-left:20px;color: red">Faturamento Inexistente</p>
+            <p>@Html.ActionLink("Voltar", "Faturamento", null, null, new { @class = "btn btn-info btn-defaut" })</p>
+        </div>
+    }
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <link href="~/Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="~/Scripts/DataTables/jquery.dataTables.js" type="text/javascript"></script>
+
+</body>
+</html>

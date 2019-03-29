@@ -1,0 +1,52 @@
+﻿@model IEnumerable<SaudeWeb.Utils.db2DataContext>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Html.ActionLink("Novo", "Create", null, null, new { @class = "btn btn-sm btn-success" })    
+<h2>Index</h2>
+
+<table>
+    <tr>
+        <th style="height:5px; width:200px;font-size:10px">
+            Cfop
+        </th>
+        <th style="height:5px; width:200px;font-size:10px;margin-left:10px">
+            Descrição
+        </th>
+        <th style="height:5px; width:180px;font-size:10px;margin-left:10px">
+            ICMS
+        </th>
+        <th style="height:5px; width:100px;font-size:10px;margin-left:10px">
+            IPI
+        </th>
+
+        <th style="height:5px; width:80px;font-size:10px;margin-left:10px">
+            CSOSN
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+            {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.cfo_codigo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.cfo_descricao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.cfo_icms)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.cfo_ipi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.cfo_csosn)
+            </td>            
+        </tr>
+    }
+</table>
+
+
+

@@ -1,0 +1,63 @@
+﻿@using SaudeWeb.Utils
+@model User.Usuario
+@{
+    ViewBag.Title = "Alterar Senha";
+}
+
+
+
+<div class="row">
+    <div class="col-md-8">
+        <section id="loginForm">
+            @using (Html.BeginForm("AlterarSenha", "Login", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(m => m.email, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBox("email", null, new { @class = "form-control", @Value = ViewBag.User, @readonly = "readonly" })
+                        @Html.ValidationMessageFor(m => m.email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Nova Senha", new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.Password("senha1", null, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Confirmar Senha", new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.Password("senha2", null, new { @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input  id="botaoTop"  type="submit" value="Alterar" class="btn btn-default" />
+                        <a  id="botaoTop" onclick="window.history.back();" class="btn btn-default" rel="pop-up">Voltar</a>
+                    </div>
+                </div>
+
+
+            }
+        </section>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+
+}
+
+<div class="col-md-offset-2 col-md-10 text-primary text-danger">
+    @ViewBag.erro
+</div>
+<div class="col-md-offset-2 col-md-10 text-primary text-success">
+    @ViewBag.sucesso
+</div>
+
+

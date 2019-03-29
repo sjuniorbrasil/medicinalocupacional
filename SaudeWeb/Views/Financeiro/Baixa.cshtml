@@ -1,0 +1,433 @@
+﻿@model SaudeWeb.Models.Financeiro
+@{
+    ViewBag.Title = "Baixa";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .containerCheckbox {
+        margin-top: 25px;
+        display: block;
+        position: relative;
+        padding-left: 35px;
+        margin-bottom: 12px;
+        cursor: pointer;
+        font-size: 22px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+
+        .containerCheckbox input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 25px;
+        width: 25px;
+        background-color: #b5cd60;
+    }
+
+    .containerCheckbox:hover input ~ .checkmark {
+        background-color: #ccc;
+    }
+
+    .containerCheckbox input:checked ~ .checkmark {
+        background-color: #282e33;
+    }
+
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    .containerCheckbox input:checked ~ .checkmark:after {
+        display: block;
+    }
+
+    .containerCheckbox .checkmark:after {
+        left: 9px;
+        top: 5px;
+        width: 5px;
+        height: 10px;
+        border: solid #b5cd60;
+        border-width: 0 3px 3px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+</style>
+<h2>Baixa</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        <h4>Contas á Pagar/Receber</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.EmpresaID)
+        @Html.HiddenFor(model => model.ID)
+        <div class="row" style="width:100%;margin-left:-30px">
+            <button id="butao" class="btn-default btn-sm" type="button" >
+                Lançamento<span class="fa fa-table" style="float:right;font-size:28px; margin-top:-3px"></span>
+            </button>
+        </div>
+
+        <div id="divLancto">
+            <div class="row">                
+                <div class="form-group col-md-4" style="margin-right:2px">
+                    @Html.Label("Parcela", htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.ParcelaID, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                </div>
+                <div class="form-group col-md-4" style="margin-right:2px">
+                    @Html.LabelFor(model => model.Tipo, htmlAttributes: new { @class = "control-label " })
+                    @Html.DropDownList("Tipo", null, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                </div>
+                <div class="form-group col-md-4" style="margin-right:2px">
+                    @Html.LabelFor(model => model.NumeroDocumento, htmlAttributes: new { @class = "control-label " })
+                    @Html.EditorFor(model => model.NumeroDocumento, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.NumeroDocumento, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-4">
+                    @Html.HiddenFor(model => model.PessoaID, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.Label("Cadastro", htmlAttributes: new { @class = "control-label " })
+                    @Html.EditorFor(model => model.ClienteDesc, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    
+                </div>
+                <div class="form-group col-md-4">
+                    @Html.LabelFor(model => model.DataEmissao, htmlAttributes: new { @class = "control-label " })
+                    @Html.EditorFor(model => model.DataEmissao, new { htmlAttributes = new { @class = "form-control", @onblur = "ValidaData(this)", @type = "text", @onkeypress = "mascaraData( this, event )", @placeholder = "DD/MM/AAAA", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.DataEmissao, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-4">
+                    @Html.LabelFor(model => model.DataVencimento, htmlAttributes: new { @class = "control-label " })
+                    @Html.EditorFor(model => model.DataVencimento, new { htmlAttributes = new { @class = "form-control", @onblur = "ValidaData(this)", @type = "text", @onkeypress = "mascaraData( this, event )", @placeholder = "DD/MM/AAAA", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.DataVencimento, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group col-md-4">
+                    @Html.LabelFor(model => model.Valor, htmlAttributes: new { @class = "control-label " })
+                    @Html.EditorFor(model => model.Valor, new { htmlAttributes = new { @class = "form-control", @readonly="readonly" } })
+                    @Html.ValidationMessageFor(model => model.Valor, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            @Html.HiddenFor(model => model.Competencia)
+            @Html.HiddenFor(model => model.Observacao)
+            @Html.HiddenFor(model => model.CategoriaID)
+                    
+                
+            
+        </div>
+
+        <div class="row" style="width:100%;margin-left:-30px">
+            <button id="butao" class="btn-default btn-sm" type="button">
+                Baixa<span class="glyphicon glyphicon-check" style="float:right;font-size:28px; margin-top:-3px"></span>
+            </button>
+        </div>
+        <div class="row" id="divBaixa" style="margin-left:4px;display:block">
+            <div class="row">
+                <div class="form-group col-md-2" style="margin-right:3px">
+                    @Html.LabelFor(model => model.DataLiquidacao, htmlAttributes: new { @class = "control-label " })
+                    @Html.EditorFor(model => model.DataLiquidacao, new { htmlAttributes = new { @class = "form-control", @onblur = "ValidaData(this)", @type = "text", @onkeypress = "mascaraData( this, event )", @placeholder = "DD/MM/AAAA" } })
+                    @Html.ValidationMessageFor(model => model.DataLiquidacao, "", new { @class = "text-danger" })
+                </div>
+                
+                @ViewBag.baixaParcial
+            </div>
+            <div class="row">
+                <div class="form-group col-md-3" style="margin-right:5px">
+                    @Html.Label("Valor Principal", htmlAttributes: new { @class = "control-label " })
+                    @Html.Editor("ValorPrincipal", new { htmlAttributes = new { @class = "form-control", @value=Model.Valor, @onblur = "CalculaTotal()"@*, onkeyup = "CalculaTotal()"*@ } })                    
+                </div>
+                <div class="form-group col-md-2" style="margin-right:5px">
+                    @Html.LabelFor(model => model.Desconto, htmlAttributes: new { @class = "control-label " })
+                    @Html.EditorFor(model => model.Desconto, new { htmlAttributes = new { @class = "form-control", @onblur = "CalculaTotal()"@*, @onkeyup = "CalculaTotal()"*@ } })
+                    @Html.ValidationMessageFor(model => model.Desconto, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group col-md-2" style="margin-right:5px">
+                    @Html.LabelFor(model => model.Juros, htmlAttributes: new { @class = "control-label " })
+                    @Html.EditorFor(model => model.Juros, new { htmlAttributes = new { @class = "form-control", @onblur = "CalculaTotal()"@*, @onkeyup = "CalculaTotal()"*@ } })
+                    @Html.ValidationMessageFor(model => model.Juros, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group col-md-2" >
+                    @Html.LabelFor(model => model.Multa, htmlAttributes: new { @class = "control-label " })
+                    @Html.EditorFor(model => model.Multa, new { htmlAttributes = new { @class = "form-control", @onblur= "CalculaTotal()"@*, @onkeyup = "CalculaTotal()"*@ } })
+                    @Html.ValidationMessageFor(model => model.Multa, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-3">
+                    @Html.Label("Conta", htmlAttributes: new { @class = "control-label " })
+                    @Html.DropDownList("contaID", null, htmlAttributes: new { @class = "form-control" })                    
+                </div>
+                <div class="form-group col-md-3">
+                    @Html.Label("Tipo de Documento", htmlAttributes: new { @class = "control-label " })
+                    @Html.DropDownList("TpDocto", null, htmlAttributes: new { @class = "form-control", @onclick = "PagCheque()" })
+                </div>
+                <div class="form-group col-md-1">
+                    @Html.Label("Banco", htmlAttributes: new { @class = "control-label " })
+                    @Html.Editor("chBanco", new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                </div>
+                <div class="form-group col-md-1">
+                    @Html.Label("Agência", htmlAttributes: new { @class = "control-label " })
+                    @Html.Editor("chAgencia", new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                </div>
+                <div class="form-group col-md-1" style="margin-right:2px">
+                    @Html.Label("Número", htmlAttributes: new { @class = "control-label " })
+                    @Html.Editor("chNumero", new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                </div>
+                <div class="form-group col-md-2">
+                    @Html.Label("Número", htmlAttributes: new { @class = "control-label " })
+                    @Html.Editor("chVencimento", new { htmlAttributes = new { @class = "form-control", @onblur = "ValidaData(this)", @readonly = "readonly", @onkeypress = "mascaraData( this, event )", @placeholder = "DD/MM/AAAA", } })
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-2" style="margin-right:3px">
+                    @Html.LabelFor(model => model.ValorBaixado, htmlAttributes: new { @class = "control-label " })
+                    @Html.HiddenFor(model => model.ValorBaixado)
+                    @Html.Editor("ValorPago", new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.ValorBaixado, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <input type="submit" value="Salvar" class="btn btn-success btn-sm" id="botaoTop" />            
+            @Html.ActionLink("Voltar", "Index", null, null, new { @class = "btn btn-info btn-sm", @id = "botaoTop" })
+        </div>
+    </div>
+}
+
+
+
+
+
+<script>
+    function FormataSoNumero(AValue) {
+        var number = "0123456789,.";
+        var retorno = "";
+        for (var i = 0; i < AValue.length; i++) {
+            if (number.indexOf(AValue.charAt(i)) != -1) {
+                retorno = retorno + AValue.charAt(i);
+            }
+        }
+        return retorno;
+    }
+   
+
+
+    function CalculaTotal() {
+        var valorS = $("#ValorPrincipal").val();
+        valorS = valorS.replace(",", ".");
+
+        var multaS = $("#Multa").val();
+        multaS = multaS.replace(",", ".");
+
+        var jurosS = $("#Juros").val();
+        jurosS = jurosS.replace(",", ".");
+
+        var descontoS = $("#Desconto").val();
+        descontoS = descontoS.replace(",", ".");
+
+        var valor = valorS;
+        var multa = multaS;
+        var juros = jurosS;
+        var desconto = descontoS;
+        var total = parseFloat(valorS) + parseFloat(multaS) + parseFloat(jurosS) - parseFloat(descontoS);        
+        var totalS = total;
+        
+        total = total.toFixed(2).split('.');
+        
+        total[0] = total[0].split(/(?=(?:...)*$)/).join('.');
+        total = total.join(',');
+        $("#ValorBaixado").val(total);
+        $("#ValorPago").val(total);
+    }
+
+    function PontoVirgula() {
+        var valorS = $("#ValorPrincipal").val();
+        valorS = valorS.replace(".", "");
+        $("#ValorPrincipal").val(valorS);
+        CalculaTotal();
+
+    }
+
+
+    function PagCheque() {
+        var combo = document.getElementById("TpDocto");
+        var x = document.getElementById("chBanco");
+        var y = document.getElementById("chAgencia");
+        var z = document.getElementById("chNumero");
+        var w = document.getElementById("chVencimento");
+        if (combo.value == 1) {
+            x.readOnly = true;
+            y.readOnly = true;
+            z.readOnly = true;
+            w.readOnly = true;
+        }
+        else {
+            x.readOnly = false;
+            y.readOnly = false;
+            z.readOnly = false;
+            w.readOnly = false;
+        }
+    }
+
+    function LiberaBaixa() {
+        var chk = document.getElementById("baixar");
+        var x = document.getElementById("DataLiquidacao");
+        var y = document.getElementById("Juros");
+        var z = document.getElementById("Multa");
+        var w = document.getElementById("Desconto");
+
+        if (chk.checked == true) {
+            x.readOnly = false;
+            y.readOnly = false;
+            z.readOnly = false;
+            w.readOnly = false;
+
+        } else {
+            x.readOnly = true;
+            y.readOnly = true;
+            z.readOnly = true;
+            w.readOnly = true;
+        }
+
+    }
+
+    function SelecionarCliente(ID, Razao) {
+        $("#PessoaID").val(ID);
+        $("#ClienteDesc").val(Razao);
+        $('#PCliente').modal('toggle');
+    }
+
+    function SelecionarCategoria(ID, PlanoContaDesc) {
+        $("#CategoriaID").val(ID);
+        $("#CategoriaDesc").val(PlanoContaDesc);
+        $('#PCategoria').modal('toggle');
+    }
+
+
+    function PClienteOpen() {
+        $("#PCliente").modal("show");
+    }
+
+    function PCategoriaOpen() {
+        $("#PCategoria").modal("show");
+    }
+
+
+
+    function PClientePesquisa() {
+        PesquisaCliente();
+    }
+
+    function PCategoriaPesquisa() {
+        PesquisaCategoria();
+    }
+
+
+    function PesquisaCliente() {
+
+        var PClienteTable = $("#PClienteTable").DataTable();
+
+        PClienteTable.clear();
+
+        var url = "@Url.Action("PesquisaCliente","Pesquisa",null)?&filtro=" + $("#PClienteFiltro").val();
+
+        $.getJSON(url, function (data) {
+
+                        $.each(data, function (index, item) {
+                        var botao = item["ID"] + ',"' + item["Razao"] + '"';
+                        botao = "<input type='button' value='Selecionar' onclick='SelecionarCliente(" + botao + ")' class='btn btn-xs btn-success' />";
+
+                        PClienteTable.row.add([item["ID"],
+                                               item["Razao"],
+                                               botao]).draw(false);
+
+                    });
+                }
+            );
+    }
+
+    function PesquisaCategoria() {
+
+        var PCategoriaTable = $("#PCategoriaTable").DataTable();
+
+        PCategoriaTable.clear();
+
+        var url = "@Url.Action("PesquisaCategoria","Pesquisa",null)?&filtro=" + $("#PCategoriaFiltro").val();
+
+        $.getJSON(url, function (data) {
+
+                        $.each(data, function (index, item) {
+                            var botao = item["ID"] + ',"' + item["PlanoContaDesc"] + '"';
+                        botao = "<input type='button' value='Selecionar' onclick='SelecionarCategoria(" + botao + ")' class='btn btn-xs btn-success' />";
+
+                        PCategoriaTable.row.add([item["ID"],
+                            item["PlanoContaDesc"],
+                                               botao]).draw(false);
+
+                    });
+                }
+            );
+    }
+
+     $(document).ready(function () {
+
+         var PClienteTable = $("#PClienteTable").dataTable({
+             "paging": false,
+             "ordering": false,
+             "info": false,
+             "searching": false,
+             "language": {
+                 "emptyTable": "&nbsp",
+                 "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Portuguese-Brasil.json"
+
+             }
+         }).DataTable();
+    });
+
+     $(document).ready(function () {
+
+         var PCategoriaTable = $("#PCategoriaTable").dataTable({
+             "paging": false,
+             "ordering": false,
+             "info": false,
+             "searching": false,
+             "language": {
+                 "emptyTable": "&nbsp",
+                 "url":"//cdn.datatables.net/plug-ins/1.10.15/i18n/Portuguese-Brasil.json"
+             }
+         }).DataTable();
+     });
+
+
+     function mostrarBaixa() {
+         var x = document.getElementById("divBaixa");
+         var y = document.getElementById("divLancto");
+         if (x.style.display === "none") {
+             x.style.display = "block";
+             y.style.display = "none";
+         } else {
+             x.style.display = "none";
+             y.style.display = "block";
+         }
+     }
+</script>
+
+

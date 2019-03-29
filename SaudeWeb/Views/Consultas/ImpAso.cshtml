@@ -1,0 +1,184 @@
+﻿@{
+    Layout = null;
+}
+@model SaudeWeb.Models.Consulta
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicina Ocupacional - @ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <script type='text/javascript'>
+
+        function imprimirAso() {
+            var op = $("#imprimir").val();
+            if (op == "imprimir") {
+                document.getElementById("imprimir").style.visibility = "hidden";
+                document.getElementById("voltar").style.visibility = "hidden";
+                window.print();
+                document.getElementById("imprimir").style.visibility = "visible";
+                document.getElementById("voltar").style.visibility = "visible";
+            }
+        }
+
+    </script>
+</head>
+<body>
+    @if (Model != null)
+    {
+    <div style="width:905px">
+        <div id="cabecalho">
+            <div id="divLogo">
+                <img id="imgLogo" src="~/Imagens/Logo/@ViewBag.Logo"  />
+            </div>
+            <div id="cabecalhoDescricao">
+                <h5>@ViewBag.Razao</h5>
+                <h6 style="margin-top:-5px">@ViewBag.Endereco</h6>
+                <h6 style="margin-top:-5px">@ViewBag.Email</h6>
+                <h3 style="margin-top:-10px">A.S.O. - ATESTADO DE SAÚDE OCUPACIONAL</h3>
+            </div>
+        </div>
+
+        <div id="divEmpresa">
+            <p id="paragrafo">EMPRESA</p>
+        </div>
+
+        <div id="divDescEmpresa">
+            <p id="texto">@Model.ClienteDesc</p>
+            <p id="texto" style="margin-top:-7px">CNPJ: @Model.CnpjEmpregador</p>
+            <p id="texto" style="margin-top:-7px">ENDEREÇO: @Model.EmpregadorEndereco<span style="float:right;margin-right:10px;text-align:right">BAIRRO: @Model.EmpregadorBairro </span> </p>
+            <p id="texto" style="margin-top:-7px">CIDADE/UF: @Model.EmpregadorCidade <span style="float:right;margin-right:10px;text-align:justify">CEP: @Model.EmpregadorCep</span></p>
+        </div>
+
+        <div id="divFuncionario">
+            <p id="paragrafo">FUNCIONÁRIO</p>
+        </div>
+
+        <div id="divDescFuncionario">
+            <p id="texto">@Model.funcionarioDesc<span style="float:right;margin-right:10px;text-align:right">SEXO:@Model.funcionarioSexo</span></p>
+            <p id="texto" style="margin-top:-7px">CPF/RG: @Model.funcionarioCfp <span style="float:right;margin-right:10px;text-align:right;">PIS: @Model.funcionarioNis </span> </p>            
+            <p id="texto" style="margin-top:-7px">NASCIMENTO: @Model.funcionarionasc</p>
+            <p id="texto" style="margin-top:-7px">SETOR: @Model.SetorDesc <span style="float:right;margin-right:10px;text-align:justify">FUNÇÃO: @Model.FuncaoDesc</span></p>
+        </div>
+
+        <div id="divRiscos">
+            <p id="paragrafo">RISCOS</p>
+        </div>
+        <div id="divDescRiscos">
+            <table>
+                <thead>
+                    <tr>                                                
+                        <th style="height:5px; width:150px;font-size:10px">Agente</th>
+                        <th style="height:5px;width:150px;font-size:10px">Risco</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.AgentesC)
+                    {
+                        <tr>
+                            <td hidden>@item.AgenteId</td>                            
+                            <td style="height:3px;font-size:10px;margin-top:-5px">@item.AgenteDesc</td>
+                            <td style="height:3px;font-size:10px;margin-top:-5px">@item.RiscoDesc</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div id="divTipoExame">
+            <h6 style="margin-top:3px" id="paragrafo">EM CUMPRIMENTO AO DISPOSTO NOS SUBITENS 7.4.4 E 7.4.4.3 DA NR-07, PORTARIA Nº08, DO MTE 13/05/1996 PARA FINS DE EXAME:</h6>
+        </div>
+        <div id="divDescTipoExame">
+            <p id="texto">
+                TIPO DO EXAME: @Model.TipoAso
+            </p>
+        </div>
+
+        <div id="divExamesComplementares">
+            <p id="paragrafo">AVALIAÇÃO CLÍNICA E EXAMES COMPLEMENTARES REALIZADOS</p>
+        </div>
+        <div id="divDescExamesComplementares">
+            <table>
+                <thead>
+                    <tr>
+                        
+                        <th style="height:5px; width:400px;font-size:10px">Exame</th>
+                        <th style="height:5px; width:150px;font-size:10px">Resultado</th>
+                        <th style="height:5px;width:150px;font-size:10px">Data</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.ExamesC)
+                    {
+                        <tr>
+                            <td hidden>@item.ExameId</td>
+                            <td style="height:3px;font-size:10px;margin-top:-5px">@item.ExameDesc</td>
+                            <td style="height:3px;font-size:10px;margin-top:-5px">@item.ResultadoExames</td>                            
+                            <td style="height:3px;font-size:10px;margin-top:-5px">@item.DataColetaF</td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+        </div>
+
+        <div id="divTipoExame">
+            <h6 style="margin-top:3px" id="paragrafo">PARECER MÉDICO </h6>
+        </div>
+        <div id="divDescTipoExame">
+            <p id="texto">@Model.AptoInapto <span style="margin-left:740px">DATA: @Model.DataConclusaoF</span></p>
+        </div>
+
+        <div id="divObservacoes">
+            <h6 style="margin-top:3px" id="paragrafo">OBSERVAÇÕES </h6>
+        </div>
+        <div id="divDescObservacoes">
+
+        </div>
+        <div id="divDescObservacoes">
+            <p style="float:left;margin-top:10px"><span style="margin-left:85px">_____/_____/__________</span><span style="margin-left:500px;">_____/_____/__________</span></p>
+            <p style="float:left"><span style="margin-left:20px">________________________________________________________________________</span><span style="margin-left:100px">___________________________________________________________________</span></p>
+            <div style="margin-top:41px;margin-left:20px;width:370px;height:20px">
+                <p style="text-align:center;margin-top:-25px">@Model.MedicoDesc - @Model.CrmMedico</p>
+            </div>
+            <div style="margin-top:41px;margin-left:503px;width:370px;height:20px">
+                <p style="text-align:center;margin-top:-25px">@Model.funcionarioDesc</p>
+            </div>
+            @*<p style="float:left"><span style="margin-left:50px">@Model.MedicoDesc - @Model.CrmMedico </span><span style="margin-left:350px">@Model.funcionarioDesc</span></p>*@
+        </div>
+
+
+        <hr />
+        <div style="margin-left:750px">
+            <button type="button" onClick="history.back()" id="voltar" class="btn btn-default btn-sm">
+                Voltar
+            </button>
+            <button type="button" onClick="imprimirAso()" id="imprimir" value="imprimir" class="btn btn-default btn-sm">
+                <span class="glyphicon glyphicon-print"></span> Imprimir
+            </button>
+        </div>
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Heavy Users Sistemas</p>
+        </footer>
+    </div>
+    }
+    else
+    {
+        <div>
+            <p style="font-size:30px; margin-left:20px;color: red">Questionário Inexistente</p>
+            <p><a style="margin-left:20px;" class="btn btn-danger btn-sm" onclick="window.history.back()">Voltar</a></p>
+        </div>
+    }
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <link href="~/Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="~/Scripts/DataTables/jquery.dataTables.js" type="text/javascript"></script>
+
+</body>
+</html>
+

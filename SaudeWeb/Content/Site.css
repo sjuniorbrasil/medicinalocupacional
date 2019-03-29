@@ -1,0 +1,814 @@
+﻿@charset "utf-8";
+@import url(http://weloveiconfonts.com/api/?family=fontawesome);
+
+[class*="fontawesome-"]:before {
+    font-family: 'FontAwesome', sans-serif;
+}
+/* se der pau arrancar daqui para cima e retirar a fonte do body e arranca o input e voltar o antigo */
+
+
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    font: 12px 'Open Sans', sans-serif; /*fontenova*/
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+center{
+    display:none;
+}
+
+
+/* Set width on the form input elements since they're 100% wide by default */
+input {
+    border: none;
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.5em;
+    padding: 0;
+    -webkit-appearance: none;
+    max-width: 350px;
+}
+
+select
+{
+    max-width: 350px;
+}
+.table-striped > tbody > tr:nth-child(odd) > td,
+.table-striped > tbody > tr:nth-child(odd) > th {
+    background-color: #e6e6e6;
+    
+}
+
+.thead-dark {
+    background: #282e33;
+    color: silver;
+    lighting-color: silver;
+    
+}
+
+.table {
+    margin-top: 10px;
+    
+}
+
+#botao {
+    width: 180px;
+    border-radius: 10px;
+}
+#butaoIni {
+    margin-left: 15px;
+    width: 100%;
+    height: 80px;
+    color: #b5cd60;
+    background-color: #282e33;
+    font-size: 18px;
+    text-align: center;
+    text-decoration: none;
+    transition: background 0.3s ease-in-out;
+}
+
+    #butaoIni:hover {
+        color: #282e33;
+        background-color: #b5cd60;
+        border: 5px solid #282e33;
+    }
+#butaoIni2 {
+    margin-left: 15px;
+    width: 100%;
+    height: 80px;
+    color: #b5cd60;
+    background-color: #282e33;
+    font-size: 18px;
+    text-align: center;
+    text-decoration: none;
+    transition: background 0.3s ease-in-out;
+}
+
+    #butaoIni2:hover {
+        color: #282e33;
+        background-color: #b5cd60;
+        border: 5px solid #282e33;
+    }
+#butaoIni3 {
+    margin-left: 15px;
+    width: 100%;
+    height: 80px;
+    color: #b5cd60;
+    background-color: #282e33;
+    font-size: 18px;
+    text-align: center;
+    text-decoration: none;
+    transition: background 0.3s ease-in-out;
+}
+
+    #butaoIni3:hover {
+        color: #282e33;
+        background-color: #b5cd60;
+        border: 5px solid#282e33;
+    }
+#butaoIni4 {
+    margin-left: 15px;
+    width: 100%;
+    height: 80px;
+    color: #b5cd60;
+    background-color: #282e33;
+    font-size: 18px;
+    text-align: center;
+    text-decoration: none;
+    transition: background 0.3s ease-in-out;
+}
+    #butaoIni4:hover {
+        color: #282e33;
+        background-color: #b5cd60;
+        border: 5px solid #282e33;
+    }
+
+#butaoIni5 {
+    margin-left: 15px;
+    width: 100%;
+    height: 80px;
+    color: #b5cd60;
+    background-color: #282e33;
+    font-size: 18px;
+    text-align: center;
+    text-decoration: none;
+    transition: background 0.3s ease-in-out;
+}
+
+    #butaoIni5:hover {
+        color: #282e33;
+        background-color: #b5cd60;
+        border: 5px solid #282e33;
+    }
+#butaoIni6 {
+    margin-left: 15px;
+    width: 100%;
+    height: 80px;
+    color: #b5cd60;
+    background-color: #282e33;
+    font-size: 18px;
+    text-align: center;
+    text-decoration: none;
+    transition: background 0.3s ease-in-out;
+}
+    #butaoIni6:hover {
+        color: #282e33;
+        background-color: #b5cd60;
+        border: 5px solid #282e33;
+    }
+
+
+#asoLinha1 {
+    border-top: 0.5px solid #ccc;
+    border-bottom: 0.5px solid #ccc;
+}
+.nav-tabs{
+    margin:5px;
+}
+#butao {
+    margin-left: 15px;
+    width: 100%;
+    height: 60px;
+    color: #b5cd60;
+    background-color: #282e33;
+    font-size: 18px;
+    transition: background 0.3s ease-in-out;
+}
+    #butao:hover {
+        color: #282e33;
+        background-color: #b5cd60;
+    }
+
+
+#cabecalho {
+    margin-top: -20px;
+    margin-left: 5px;
+    border: 0.5px solid black;
+    width: 900px;
+    height: 100px;
+}
+
+#imgLogo {
+    width: 100px;
+    height: 80px;
+    margin-left: 40px;
+    margin-top: 10px;
+}
+
+#divLogo {
+    width: 160px;
+    height: 99px;
+    float: left;
+}
+
+#cabecalhoDescricao {
+    float: left;
+    width: 736px;
+    height: 99px;
+    text-align: center;
+}
+
+#divEmpresa {
+    float: left;
+    margin-left: 5px;
+    width: 900px;
+    height: 20px;
+    margin-top: 10px;
+    border: 0.5px solid black;
+}
+
+#divDescEmpresa {
+    float: left;
+    margin-left: 5px;
+    width: 900px;
+    height: 80px;
+    border-left: 0.5px solid black;
+    border-right: 0.5px solid black;
+    border-bottom: 0.5px solid black;
+}
+
+#divFuncionario {
+    float: left;
+    margin-left: 5px;
+    width: 900px;
+    height: 20px;
+    margin-top: 10px;
+    border: 0.5px solid black;
+}
+
+#divDescFuncionario {
+    float: left;
+    margin-left: 5px;
+    width: 900px;
+    height: 80px;
+    border-left: 0.5px solid black;
+    border-right: 0.5px solid black;
+    border-bottom: 0.5px solid black;
+}
+
+#divRiscos {
+    float: left;
+    margin-left: 5px;
+    width: 900px;
+    height: 20px;
+    margin-top: 10px;
+    border: 0.5px solid black;
+}
+
+#divDescRiscos {
+    float: left;
+    margin-left: 5px;
+    width: 900px;
+    height: 150px;
+    border-left: 0.5px solid black;
+    border-right: 0.5px solid black;
+    border-bottom: 0.5px solid black;
+}
+
+#divTipoExame {
+    float: left;
+    margin-left: 5px;
+    width: 900px;
+    height: 20px;
+    margin-top: 10px;
+    border: 0.5px solid black;
+}
+
+#divDescTipoExame {
+    float: left;
+    margin-left: 5px;
+    width: 900px;
+    height: 20px;
+    border-left: 0.5px solid black;
+    border-right: 0.5px solid black;
+    border-bottom: 0.5px solid black;
+}
+
+#divExamesComplementares {
+    float: left;
+    margin-left: 5px;
+    width: 900px;
+    height: 20px;
+    margin-top: 10px;
+    border: 0.5px solid black;
+}
+
+#divDescExamesComplementares {
+    float: left;
+    margin-left: 5px;
+    width: 900px;
+    height: 400px;
+    border-left: 0.5px solid black;
+    border-right: 0.5px solid black;
+    border-bottom: 0.5px solid black;
+}
+
+#divObservacoes {
+    float: left;
+    margin-left: 5px;
+    width: 900px;
+    height: 20px;
+    margin-top: 10px;
+    border: 0.5px solid black;
+}
+
+#divDescObservacoes {
+    float: left;
+    margin-left: 5px;
+    width: 900px;
+    height: 100px;
+    border-left: 0.5px solid black;
+    border-right: 0.5px solid black;
+    border-bottom: 0.5px solid black;
+}
+
+#navTop {
+    background-color: #282e33;
+}
+
+
+
+
+#paragrafo {
+    margin-left: 3px;
+}
+
+#texto {
+    margin-left: 3px;
+    font-size: 12px;
+}
+
+#butaoCinza {
+   
+    color: white;
+    background-color: #4e4e4e;   
+    text-align: center;
+    text-decoration: none;
+}
+
+    #butaoCinza:hover {
+        color: white;
+        background-color: gray;
+ }
+
+#recibo {
+    margin-top: -20px;
+    margin-left: 5px;
+    border: 0.5px solid black;
+    width: 900px;
+    height: 490px;
+}
+
+#idRecibo {
+    margin-top: 10px;
+    margin-left: 25px;
+    border: 0.5px solid black;
+    width: 270px;
+    height: 30px;
+    float:left;
+}
+#vlRecibo {
+    margin-top: 10px;
+    margin-left: 295px;
+    border: 0.5px solid black;
+    width: 270px;
+    height: 30px;
+    float: left;
+}
+
+#descRecibo {
+    margin-top: 10px;
+    margin-left: 30px;
+    width: 850px;
+    height: 150px;
+    float: left;
+    /*border: 0.5px solid black;*/
+}
+
+#vlReciboExtenso {
+    margin-top: -10px;
+    width: 832px;
+    height: 40px;    
+    float: left;
+    border: 0.5px solid black;
+}
+
+#descReciboExames {
+    margin-top: -10px;
+    width: 832px;
+    height: 50px;
+    float: left;
+    border: 0.5px solid black;
+    
+}
+
+#emitenteRecibo {
+    margin-top:50px;
+    width: 400px;
+    height: 130px;
+    float: left;
+    margin-left:30px;
+    border: 0.5px solid black;
+    
+}
+
+#assinaturaRecibo {
+    margin-top: 50px;
+    width: 400px;
+    height: 130px;
+    float: left;
+    margin-left: 32px;
+    border: 0.5px solid black;
+}
+
+
+#fichaEmpresaFuncionario {
+    height: 40px;
+    width: 900px;
+    border-left: 0.5px solid black;
+    border-right: 0.5px solid black;
+    border-bottom: 0.5px solid black;
+    float: left;
+}
+#fichaLinhaPadrao {
+    height: 30px;
+    width: 900px;
+    border-left: 0.5px solid black;
+    border-right: 0.5px solid black;
+    border-bottom: 0.5px solid black;
+    float: left;
+    
+}
+#fichaLinhaObs {
+    height: 330px;
+    width: 900px;
+    border-left: 0.5px solid black;
+    border-right: 0.5px solid black;
+    border-bottom: 0.5px solid black;
+    float: left;
+    
+}
+
+#fichaLinhaRodape {
+    height: 80px;
+    width: 900px;
+    border-left: 0.5px solid black;
+    border-right: 0.5px solid black;
+    border-bottom: 0.5px solid black;
+    float: left;
+   
+}
+
+#paragrafoPadraFicha{
+    margin-left:3px;
+    margin-top:5px;
+}
+
+
+
+#casinha {
+    color: #b5cd60;    
+}
+    #casinha:hover {
+        color: #16aa56;
+    }
+
+#dropVerde:hover {
+    background: #b5cd60;
+}
+
+
+#dropVerde {
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+    
+    
+}
+
+#tug:hover {
+    color: #16aa56;
+}
+
+#tug:active {
+    color: #16aa56;
+}
+
+#tug:focus {
+    color: #16aa56;
+}
+
+#linkLI:hover{
+    background-color:#b5cd60;
+    color:white;
+}
+
+#linkLI {
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
+
+#panelColorido {
+    margin-top:3px;
+    background-color: #282e33;
+    color: #b5cd60;
+}
+
+#iconMenu {
+    border: 3px double #b5cd60;
+    height: 100px;
+    width: 45%;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-right: 3px;
+    float: left;
+    background-color: #282e33;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+    color: #b5cd60;
+}
+    #iconMenu:hover {
+        color: #282e33;
+        background-color: #b5cd60;
+        border: 3px double #282e33;
+    }
+
+#linkPrincipal {
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+    color: #b5cd60;
+}
+    #linkPrincipal:hover {
+        color: #282e33;
+        background-color: #b5cd60;
+    }
+
+#botaoExclui {
+    background-color: #ff9900;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+    color: white;
+    border: 0;
+    border-radius: 3px;
+}
+
+#botaoExclui:hover {
+    background-color: #e62e00;
+    color: white;
+}
+
+#botaoTop {
+    background: #b5cd60;
+    border: 0;
+    border-radius: 3px;
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
+
+    #botaoTop:hover {
+        background: #16aa56;
+    }
+
+#botaoTopWhite {
+    background: white;
+    border: 0;
+    border-radius: 3px;
+    color: #b5cd60;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
+
+    #botaoTopWhite:hover {
+        background: #b5cd60;
+        color: white;
+    }
+
+#botaoTopBlue {
+    background: #0094ff;
+    border: 0;
+    border-radius: 3px;
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
+
+    #botaoTopBlue:hover {
+        background: #00ffff;
+    }
+
+#botaoTopGreen {
+    background: #0B610B;
+    border: 0;
+    border-radius: 3px;
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
+
+    #botaoTopGreen:hover {
+        background: #0B614B;
+    }
+
+
+#hrVerde{
+    color:#282e33;
+}
+
+#audDescExame {
+    height: 44px;
+    width: 900px;
+    border-left: 0.5px solid black;
+    border-right: 0.5px solid black;
+    border-bottom: 0.5px solid black;
+    float: left;
+}
+#audDescExameEsquerdo {
+    height: 43px;
+    width: 500px;    
+    border-right: 0.5px solid black;    
+    float: left;
+}
+#audDescExameDireito {
+    height: 43px;
+    width: 390px;
+    float: left;
+}
+#audTipoExame {
+    height: 30px;
+    width: 900px;
+    border-left: 0.5px solid black;
+    border-right: 0.5px solid black;
+    border-bottom: 0.5px solid black;
+    float: left;
+}
+#audLinhaInteira {
+    height: 30px;
+    width: 900px;
+    border-left: 0.5px solid black;
+    border-right: 0.5px solid black;
+    border-bottom: 0.5px solid black;
+    float: left;
+}
+#audMeiaLinhaEsquerda {
+    height: 30px;
+    width: 449px;    
+    border-right: 0.5px solid black;    
+    float: left;
+}
+#audMeiaLinhaDireita {
+    height: 30px;
+    width: 449px;    
+    float: left;
+}
+#audGrafico {
+    height: 350px;
+    width: 900px;
+    border-right: 0.5px solid black;
+    border-left: 0.5px solid black;
+    border-bottom: 0.5px solid black;
+    float:left;
+}
+#audGraficoEsquerdo {
+    height: 349px;
+    width: 449px;    
+    border-right: 0.5px solid black;    
+    float: left;
+}
+#audGraficoDireito {
+    height: 349px;
+    width: 449px;    
+    float: left;
+}
+
+#audMiniQuadro {
+    height: 20px;
+    width: 20px;
+    border-left: 0.5px solid black;
+    border-top: 0.5px solid black;
+    float:left;
+}
+#audMiniQuadroDireito {
+    height: 20px;
+    width: 20px;
+    border-left: 0.5px solid black;
+    border-top: 0.5px solid black;
+    border-right: 0.5px solid black;
+    float: left;
+}
+#audMiniBotton {
+    height: 20px;
+    width: 20px;
+    border-left: 0.5px solid black;
+    border-top: 0.5px solid black;
+    border-bottom: 0.5px solid black;
+    float: left;
+}
+
+#audGrafico2 {
+    height: 110px;
+    width: 900px;
+    border-right: 0.5px solid black;
+    border-left: 0.5px solid black;
+    border-bottom: 0.5px solid black;
+    float: left;
+}
+#audGraficoEsquerdo2 {
+    height: 119px;
+    width: 449px;    
+    float: left;
+}
+
+#audGraficoDireito2 {
+    height: 119px;
+    width: 449px;
+    float: left;
+}
+#audGrafico2Linha1{
+    margin-left:10px;
+    margin-top:5px;
+    height:20px;
+    width:435px;
+    
+}
+#audGrafico2Linha2 {
+    margin-left: 10px;
+    margin-top: -6px;
+    height: 30px;
+    width: 435px;
+    
+}
+#audGrafico2Linha3 {
+    margin-left: 10px;
+    margin-top: 3px;
+    height: 20px;
+    width: 435px;
+    border: 0.5px solid black;
+}
+#audGrafico2Linha4 {
+    margin-left: 10px;
+    margin-top: 3px;
+    height: 30px;
+    width: 435px;
+    border: 0.5px solid black;
+}
+#audGrafico2MiniQuadro {
+    margin-top:2px;   
+    border-left: 0.5px solid black;
+    border-top: 0.5px solid black;
+    border-bottom: 0.5px solid black;
+    height:25px;
+    width:40px;
+    float:left;
+}
+#audAvaliacao {
+    height: 140px;
+    width: 900px;
+    border-right: 0.5px solid black;
+    border-left: 0.5px solid black;
+    border-bottom: 0.5px solid black;
+    float: left;
+}
+#audAvaliacaoEsquerdo {
+    height: 139px;
+    width: 449px;
+    border-right: 0.5px solid black;   
+    float: left;
+}
+#audAvaliacaoDireito {
+    height: 139px;
+    width: 449px;
+    float: left;
+}
+#audMeatoscopia {
+    height: 60px;
+    width: 900px;
+    border-right: 0.5px solid black;
+    border-left: 0.5px solid black;
+    border-bottom: 0.5px solid black;
+    float: left;
+}
+#audObs {
+    height: 40px;
+    width: 900px;
+    border-right: 0.5px solid black;
+    border-left: 0.5px solid black;
+    border-bottom: 0.5px solid black;
+    float: left;
+}
+

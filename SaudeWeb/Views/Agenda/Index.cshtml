@@ -1,0 +1,135 @@
+﻿@model IEnumerable<SaudeWeb.Models.Agenda>
+
+@{
+    ViewBag.Title = "Agenda";
+}
+
+<h2>Agenda Diária</h2>
+
+<p>
+    @Html.ActionLink("Novo", "Create", null, null, new { @class = "btn btn-sm btn-success", @id = "botaoTop" })    
+    
+</p>
+<p>
+    @Html.Label("Data")
+</p>
+@using (Html.BeginForm())
+{ 
+<p>
+    <input type="date" id="dataF" name="dataF" class="form-control" placeholder = "DD/MM/AAAA" />
+                     
+</p>
+    <p>
+        @Html.Label("Situação")
+    </p>
+    <p>        
+        @Html.DropDownList("situacao", null, htmlAttributes: new { @class = "form-control" })
+    </p>
+<p>
+    <input class="btn btn-info btn-sm" type="submit" value="Atualizar Agenda" id="botaoTop" />
+</p>
+}
+<div class="row" style="width:200px;float:right;margin-bottom:5px">
+    <h4>
+        STATUS DA AGENDA
+    </h4>
+    <div style="border: 0.5px solid #ccc; border-radius:10px">        
+        <h6 style="color:green; margin-left: 5px">
+            Dentro do Horário Previsto
+        </h6>
+        <h6 style="color:red;  margin-left: 5px">
+            Atrasado
+        </h6>
+        <h6 style="color:black; margin-left: 5px">
+            Finalizado
+        </h6>
+
+    </div>
+</div>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.NomeCliente)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NomeFuncionario)
+        </th>                
+        <th>
+            @Html.DisplayNameFor(model => model.Hora)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Observacoes)
+        </th>
+        
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+   if (item.Status == 0)
+   {
+    <tr style="color:green">
+        <td>
+            @Html.DisplayFor(modelItem => item.NomeCliente)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NomeFuncionario)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Hora)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Observacoes)
+        </td>
+        <td>
+            @Html.ActionLink(" ", "Edit", new { id = item.ID }, new { @class = "fa fa-pencil-square", @id = "botaoTop", @style = "font-size:24px;padding-left:2.5px;padding-bottom:0;padding-rigth:0;padding-top:0;width:26px;",  @title = "Editar" })
+            @Html.ActionLink(" ", "Delete", new { id = item.ID }, new { @class = "fa fa-trash", @id = "botaoTop", @style = "font-size:24px;padding-left:2.5px;padding-bottom:0;padding-rigth:0;padding-top:0;width:26px", @title = "Excluir" })
+        </td>
+    </tr>
+   }
+   else if (item.Status == 1) 
+   {
+    <tr  style="color:red">
+        <td>
+            @Html.DisplayFor(modelItem => item.NomeCliente)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NomeFuncionario)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Hora)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Observacoes)
+        </td>
+        <td>
+            @Html.ActionLink(" ", "Edit", new { id = item.ID }, new { @class = "fa fa-pencil-square", @id = "botaoTop", @style = "font-size:24px;padding-left:2.5px;padding-bottom:0;padding-rigth:0;padding-top:0;width:26px;", @title = "Editar" })
+            @Html.ActionLink(" ", "Delete", new { id = item.ID }, new { @class = "fa fa-trash", @id = "botaoTop", @style = "font-size:24px;padding-left:2.5px;padding-bottom:0;padding-rigth:0;padding-top:0;width:26px", @title = "Excluir" })
+        </td>
+    </tr>
+    }
+    else
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NomeCliente)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NomeFuncionario)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Hora)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Observacoes)
+            </td>
+            <td>
+                @Html.ActionLink(" ", "Edit", new { id = item.ID }, new { @class = "fa fa-pencil-square", @id = "botaoTop", @style = "font-size:24px;padding-left:2.5px;padding-bottom:0;padding-rigth:0;padding-top:0;width:26px;", @title = "Editar" })
+                @Html.ActionLink(" ", "Delete", new { id = item.ID }, new { @class = "fa fa-trash", @id = "botaoTop", @style = "font-size:24px;padding-left:2.5px;padding-bottom:0;padding-rigth:0;padding-top:0;width:26px", @title = "Excluir" })
+            </td>
+        </tr>
+    }
+
+}
+
+</table>

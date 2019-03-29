@@ -1,0 +1,175 @@
+﻿@model  IEnumerable < SaudeWeb.Models.HistoricoCliente>
+@{
+    ViewBag.Title = "Histórico de Clientes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    @*using (Html.BeginForm())
+    {*@
+
+
+    @Html.AntiForgeryToken()
+
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#menu1">Consultas</a></li>
+        <li><a data-toggle="tab" href="#menu2">Financeiro</a></li>
+        <li><input style="margin-left:5px;margin-top:4px" type="button" class="btn btn-default btn-sm" id="botaoTop" onclick="window.history.back()" value="Voltar" /></li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="menu1" class="tab-pane fade in active">
+            <table class="table" style="width:905px">
+                <tr>
+                    <th style="width:800px">
+                        @Html.DisplayNameFor(model => model.ClienteRazao)
+                    </th>
+                </tr>
+                <tr></tr>
+
+                @foreach (var item in Model)
+                {
+                    
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ClienteRazao)
+                        </td>
+                    </tr>
+                    <tr>
+                         <td>
+                             <table style="width:100%">
+                                 <tr>
+                                     <th style="width:70%">
+                                         @Html.DisplayName("Funcionário")
+                                     </th>
+                                     <th style="width:15%">
+                                         @Html.DisplayName("Data")
+                                     </th>
+                                     <th style="width:15%">
+                                         @Html.DisplayName("Situação")
+                                     </th>
+                                     <th>
+
+                                     </th>
+
+                                 </tr>
+                                 
+                                 @foreach (var detalhe in item.Consultas)
+                                 {
+                                     
+                                     <tr style="height:1px">
+                                         <td >@Html.DisplayFor(modelItem => detalhe.Funcionario)</td>
+                                         <td >@Html.DisplayFor(modelItem => detalhe.DataConsulta)</td>
+                                         <td >@Html.DisplayFor(modelItem => detalhe.SituacaoF)</td>
+                                         @*<td><a class="btn btn-default btn-sm" id="botaoTop"  onclick="MostrarExame()">Exames</a></td>*@
+                                     </tr>
+                                     <tr>
+                                         <td>
+                                             <table  class="classeTable" style="display:block"  @*style="width:100%"*@>
+                                                 <tr>
+                                                     <th style="width:70%">
+                                                         @Html.DisplayName("Exame")
+                                                     </th>
+                                                     <th style="width:15%">
+                                                         @Html.DisplayName("Data")
+                                                     </th>
+                                                     <th style="width:15%">
+                                                         @Html.DisplayName("Situação")
+                                                     </th>
+
+                                                 </tr>
+                                                 @foreach (var detalheExame in detalhe.Exames)
+                                                 {
+                                                     <tr style="height:1px">
+                                                         <td>@Html.DisplayFor(modelItem => detalheExame.Exame)</td>
+                                                         <td>@Html.DisplayFor(modelItem => detalheExame.DataExame)</td>
+                                                         <td>@Html.DisplayFor(modelItem => detalheExame.SituacaoExame)</td>
+                                                     </tr>     
+                                                     
+                                                 }
+                                             </table>
+                                         </td>
+                                     </tr>
+                                 }
+                             </table>
+                         </td>
+                    </tr>
+                }
+
+            </table>
+
+        </div>
+        <div id="menu2" class="tab-pane fade">
+            <table class="table" style="width:905px">
+                <tr>
+                    <th style="width:800px">
+                        @Html.DisplayNameFor(model => model.ClienteRazao)
+                    </th>
+                </tr>
+                <tr></tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ClienteRazao)
+                        </td>
+                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <table style="width:100%">
+                                                <tr>
+                                                    <th style="width:70%">
+                                                        @Html.DisplayName("Número Documento")
+                                                    </th>
+                                                    <th style="width:15%">
+                                                        @Html.DisplayName("Emissão")
+                                                    </th>
+                                                    <th style="width:15%">
+                                                        @Html.DisplayName("Vencimento")
+                                                    </th>
+                                                    <th style="width:15%">
+                                                        @Html.DisplayName("Valor")
+                                                    </th>
+                                                    <th style="width:15%">
+                                                        @Html.DisplayName("Liquidação")
+                                                    </th>
+                                                    <th style="width:15%">
+                                                        @Html.DisplayName("Valor Recebido")
+                                                    </th>
+                                                </tr>
+                                                @foreach (var detalhe in item.RecPags)
+                                                {
+                                                    <tr style="height:1px">
+                                                        <td style="height:1px;font-size:9px;margin-top:-8px;padding:0">@Html.DisplayFor(modelItem => detalhe.NumeroDocumento)</td>
+                                                        <td style="height:1px;font-size:9px;margin-top:-8px;padding:0">@Html.DisplayFor(modelItem => detalhe.Emissao)</td>
+                                                        <td style="height:1px;font-size:9px;margin-top:-8px;padding:0">@Html.DisplayFor(modelItem => detalhe.DataVencimento)</td>
+                                                        <td style="height:1px;font-size:9px;margin-top:-8px;padding:0">@Html.DisplayFor(modelItem => detalhe.Valor)</td>
+                                                        <td style="height:1px;font-size:9px;margin-top:-8px;padding:0">@Html.DisplayFor(modelItem => detalhe.DataLiquidacao)</td>
+                                                        <td style="height:1px;font-size:9px;margin-top:-8px;padding:0">@Html.DisplayFor(modelItem => detalhe.ValorBaixa)</td>
+                                                    </tr>
+                                                }
+                                            </table>
+                                        </td>
+                                    </tr>
+                }
+
+            </table>
+
+        </div>
+    </div>
+    @*}*@
+<input style="margin-left:5px;margin-top:4px" type="button" class="btn btn-default btn-sm" id="botaoTop" onclick="window.history.back()" value="Voltar" />
+<script>
+    function MostrarExame() {
+        var x = document.getElementById("divExameHistorico");        
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+        
+        
+    }
+</script>
+

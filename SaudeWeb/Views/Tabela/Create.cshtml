@@ -1,0 +1,233 @@
+﻿@model SaudeWeb.Models.TabelaPreco
+
+@{
+    ViewBag.Title = "Tabela de Preço";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Tabela de Preço</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ID, new { htmlAttributes = new { @class = "form-control" } })
+       
+        @Html.HiddenFor(model => model.EmpresaID, new { htmlAttributes = new { @class = "form-control" } })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Descricao, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Descricao, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Descricao, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Salvar" class="btn btn-success btn-sm" id="botaoTop" />
+                @Html.ActionLink("Voltar", "Index", null, null, new { @class = "btn btn-info btn-sm", @id = "botaoTop" })
+                @if (ViewBag.Exame == true)
+                {
+                    <input type="button" value="Incluir Exame" class="btn btn-success btn-sm" id="botaoTop" onclick="PExameOpen()" />
+                }                
+            </div>
+        </div>
+    </div>
+}
+<p style="color:red"> @ViewBag.erro</p>
+<p style="color:#b5cd60"> @ViewBag.sucesso</p>
+@if (Model != null)
+{
+<div class="row">
+    <div class="form-group col-md-12">
+        <table class="table table-striped table-hover">
+            <tr>
+                <th>
+                    @Html.Label("Controle")
+                </th>
+                <th>
+                    @Html.Label("Exame")
+                </th>
+                <th>
+                    @Html.Label("Valor")
+                </th>   
+                <th>
+                    @Html.Label("Repasse Médico")
+                </th>  
+                <th>
+
+                </th>
+            </tr>
+            @foreach (var item in Model.TabelaPrecos)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ExameID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ExameDesc)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ValorExame)
+                    </td> 
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RepasseMedicoValor)
+                    </td> 
+
+                    <td>
+                        @Html.ActionLink("Remover", "DelExame", new { ID = Model.ID, ExameID = item.ExameID }, new { @class = "btn btn-xs btn-defaut", @style = "width: 70px", @id = "botaoExclui" })
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+}
+
+<div id="PExame" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" style="width:70%" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Exames</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-5">
+                            <div class="input-group">
+                                @Html.TextBox("PExameFiltro", null, new { @class = "form-control" })
+                                <span class="input-group-btn">
+                                    <input type="button" id="PExameBuscar" onclick="PExamePesquisa()" value="Localizar" class="btn btn-success" />
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="width:100%; height:400px; overflow-y: scroll">
+                    <table id="PExameTable" class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th style="width:100px">Controle</th>
+                                <th style="width:400px">Descrição</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="ExameDetal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" style="width:70%" role="document">
+        <form action="/Tabela/AddExame" method="post">
+            @Html.AntiForgeryToken()
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Exames</h4>                    
+                    <input type="hidden" id="TabelaExameDetal" name="TabelaExameDetal" />                    
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                                <input type="hidden" readonly="readonly" id="ExameIdDetal" name="ExameIdDetal" />
+                                @Html.Label("Exame")
+                                <input type="text" id="ExameDescDetal" class="form-control" readonly="readonly" name="ExameDescDetal" />
+                            </div>
+                            <div class="form-group col-md-4">                                
+                                @Html.Label("Valor")
+                                <input type="text" id="ExameValorDetal" name="ExameValorDetal" class="form-control"/>
+                            </div>
+                            <div class="form-group col-md-4">
+                                @Html.Label("Valor Repasse Médico")
+                                <input type="text" id="ExameValorRepasseDetal" name="ExameValorRepasseDetal" class="form-control" />
+                            </div>
+                            
+                        </div>
+                       
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default">Incluir</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function SelecionarExame(ID, Nome) {       
+       
+        $('#PExame').modal('toggle');
+        $('#ExameDetal').modal('show');
+        var idtabela = document.getElementById("ID").value;
+        $("#TabelaExameDetal").val(idtabela);
+        $("#ExameIdDetal").val(ID);
+        $("#ExameDescDetal").val(Nome);
+    }
+
+
+    function PExameOpen() {
+        $("#PExame").modal("show");
+    }
+
+
+    function PExamePesquisa() {
+        PesquisaExame();
+    }
+
+    function PesquisaExame() {
+
+        var PExameTable = $("#PExameTable").DataTable();
+
+        PExameTable.clear();
+
+        var url = "@Url.Action("PesquisaExame","Pesquisa",null)?&filtro=" + $("#PExameFiltro").val();
+
+        $.getJSON(url, function (data) {
+
+                        $.each(data, function (index, item) {
+                            var botao = item["ID"] + ',"' + item["Nome"] + '"';
+                        botao = "<input type='button' value='Selecionar' onclick='SelecionarExame(" + botao + ")' class='btn btn-xs btn-success' />";
+
+                        PExameTable.row.add([item["ID"],
+                            item["Nome"],
+                                               botao]).draw(false);
+
+                    });
+                }
+            );
+    }
+
+    $(document).ready(function () {
+
+        var PExameTable = $("#PExameTable").dataTable({
+            "paging": false,
+            "ordering": false,
+            "info": false,
+            "searching": false,
+            "language": {
+                "emptyTable": "&nbsp"
+
+            }
+        }).DataTable();
+    });
+</script>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+}

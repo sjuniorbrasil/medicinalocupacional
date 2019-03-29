@@ -1,0 +1,56 @@
+﻿@model SaudeWeb.Models.Consulta
+
+@{
+    ViewBag.Title = "Questionário de Saúde";
+}
+
+<h3>Deseja excluir esse registro?</h3>
+<div>
+    <h4>Questionário de Saúde</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ClienteDesc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ClienteDesc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.funcionarioDesc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.funcionarioDesc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DataConsulta)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DataConsulta)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AptoInapto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AptoInapto)
+        </dd>
+
+       
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Excluir" class="btn btn-danger btn-sm" id="botaoTop" /> |
+            @Html.ActionLink("Voltar", "Index", null, null, new { @class = "btn btn-info btn-sm", @id = "botaoTop" })
+        </div>
+    }
+</div>
