@@ -154,7 +154,7 @@ namespace SaudeWeb.Utils
                
 
                 enviarEmail.inicio(
-                    "suporte@produsys.com.br",
+                    "email",
                     destinatario,
                     "",
                     "",
@@ -162,9 +162,9 @@ namespace SaudeWeb.Utils
                     corpo,
                     anexo,
                     "",
-                    "mail.prosige.com.br",
-                    "teste@prosige.com.br",
-                    "");
+                    "colocar smpt",
+                    "conta de email",
+                    "senha do email");
             }
         
 
